@@ -52,6 +52,7 @@ namespace UwpCommunity.WebApi
                     .AddUnitOfWork<UwpCommunityDbContext>();
 
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IProjectService, ProjectService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -28,25 +28,31 @@ namespace UwpCommunity.WebApi.Controllers
 
             return result.Success ? Ok(result.Value)
                 : (ActionResult)NotFound();
-
-            //return new Project[]
-            //{
-            //    new Project{ AppName = "aaa"},
-            //    new Project{ AppName = "sss"},
-            //    new Project{ AppName = "ddd"}
-            //};
         }
 
         [HttpGet]
         [Route("[action]")]
         public ActionResult<User> Add()
         {
-            var result = _userService.Add(new User
+            var user = new User
             {
-                Name = "user"
-            });
+                Name = "user",
 
-            return result.Success ? Ok(result.Value) 
+                UserProjects = new List<UserProject>
+                {
+                    new UserProject()
+                    {
+                        Project = new Project
+                        {
+                            AppName = "project"
+                        }
+                    }
+                }
+            };
+
+            var result = _userService.Add(user);
+
+            return result.Success ? Ok(result.Value)
                 : (ActionResult)NotFound();
         }
     }

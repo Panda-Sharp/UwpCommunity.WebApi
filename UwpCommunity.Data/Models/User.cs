@@ -8,7 +8,9 @@ namespace UwpCommunity.Data.Models
     {
         public Guid UserId { get; set; }
         public string Name { get; set; }
+        public string Email { get; set; }
+        public string DiscordId { get; set; }
 
-        public List<Project> Projects { get; } = new List<Project>();
+        public List<UserProject> UserProjects { get; set; } = new List<UserProject>();
     }
 }

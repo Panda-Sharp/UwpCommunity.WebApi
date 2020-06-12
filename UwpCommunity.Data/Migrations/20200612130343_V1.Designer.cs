@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UwpCommunity.Data;
 
 namespace UwpCommunity.Data.Migrations
 {
     [DbContext(typeof(UwpCommunityDbContext))]
-    partial class UwpCommunityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200612130343_V1")]
+    partial class V1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
