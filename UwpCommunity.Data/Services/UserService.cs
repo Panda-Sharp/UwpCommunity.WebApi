@@ -2,6 +2,7 @@
 using UwpCommunity.Data.Models;
 using Yugen.Toolkit.Standard.Data;
 using Yugen.Toolkit.Standard.Data.Interfaces;
+using Yugen.Toolkit.Standard.Models;
 
 namespace UwpCommunity.Data.Services
 {

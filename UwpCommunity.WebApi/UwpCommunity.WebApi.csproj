@@ -10,10 +10,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.5" />
+    <PackageReference Include="Yugen.Toolkit.Standard.Data" Version="1.0.28" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Yugen.Toolkit\Yugen.Toolkit.Standard.Data\Yugen.Toolkit.Standard.Data.csproj" />
     <ProjectReference Include="..\UwpCommunity.Data\UwpCommunity.Data.csproj" />
   </ItemGroup>
 

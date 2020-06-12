@@ -5,9 +5,7 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UwpCommunity.WebApi", "UwpCommunity.WebApi\UwpCommunity.WebApi.csproj", "{C7D36473-5E98-43B1-9F49-55FB0DD0205E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yugen.Toolkit.Standard.Data", "..\Yugen.Toolkit\Yugen.Toolkit.Standard.Data\Yugen.Toolkit.Standard.Data.csproj", "{CF1AB597-1C8A-4219-A284-41B1565F9B3B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UwpCommunity.Data", "UwpCommunity.Data\UwpCommunity.Data.csproj", "{36450FD2-A4DB-440C-922A-D3B898525F8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UwpCommunity.Data", "UwpCommunity.Data\UwpCommunity.Data.csproj", "{36450FD2-A4DB-440C-922A-D3B898525F8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		{C7D36473-5E98-43B1-9F49-55FB0DD0205E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7D36473-5E98-43B1-9F49-55FB0DD0205E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7D36473-5E98-43B1-9F49-55FB0DD0205E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CF1AB597-1C8A-4219-A284-41B1565F9B3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF1AB597-1C8A-4219-A284-41B1565F9B3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF1AB597-1C8A-4219-A284-41B1565F9B3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF1AB597-1C8A-4219-A284-41B1565F9B3B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{36450FD2-A4DB-440C-922A-D3B898525F8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{36450FD2-A4DB-440C-922A-D3B898525F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36450FD2-A4DB-440C-922A-D3B898525F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU

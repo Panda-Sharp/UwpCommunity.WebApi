@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,10 +10,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Yugen.Toolkit\Yugen.Toolkit.Standard.Data\Yugen.Toolkit.Standard.Data.csproj" />
+    <PackageReference Include="Yugen.Toolkit.Standard.Data" Version="1.0.28" />
   </ItemGroup>
 
 </Project>
