@@ -7,8 +7,9 @@ namespace UwpCommunity.Data.Services
 {
     public class UserService : BaseService<User>, IUserService
     {
-        public UserService(IUnitOfWork unitOfWork) : base(unitOfWork)
-        {
-        }
+        public UserService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+
+        public Result<User> SingleByDiscordId(string discordId) =>
+            Single(x => x.DiscordId.Equals(discordId));
     }
 }

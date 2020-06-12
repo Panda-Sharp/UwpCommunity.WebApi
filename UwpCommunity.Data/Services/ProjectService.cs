@@ -7,8 +7,6 @@ namespace UwpCommunity.Data.Services
 {
     public class ProjectService : BaseService<Project>, IProjectService
     {
-        public ProjectService(IUnitOfWork unitOfWork) : base(unitOfWork)
-        {
-        }
+        public ProjectService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
     }
 }

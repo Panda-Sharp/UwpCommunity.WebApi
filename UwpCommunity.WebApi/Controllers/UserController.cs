@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -30,27 +31,58 @@ namespace UwpCommunity.WebApi.Controllers
                 : (ActionResult)NotFound();
         }
 
-        [HttpGet]
-        [Route("[action]")]
-        public ActionResult<User> Add()
+        [HttpGet("{userId}")]
+        public ActionResult<IEnumerable<User>> Get(Guid userId)
         {
-            var user = new User
-            {
-                Name = "user",
+            var result = _userService.Single(userId);
 
-                UserProjects = new List<UserProject>
-                {
-                    new UserProject()
-                    {
-                        Project = new Project
-                        {
-                            AppName = "project"
-                        }
-                    }
-                }
-            };
+            return result.Success ? Ok(result.Value)
+                : (ActionResult)NotFound();
+        }
+
+        [HttpGet("[action]/{discordId}")]
+        public ActionResult<IEnumerable<User>> DiscordId(string discordId)
+        {
+            var result = _userService.SingleByDiscordId(discordId);
+
+            return result.Success ? Ok(result.Value)
+                : (ActionResult)NotFound();
+        }
+
+        [HttpPost]
+        public ActionResult<User> Add(User user)
+        {
+            //var user = new User
+            //{
+            //    Name = "user",
+            //    UserProjects = new List<UserProject>
+            //    {
+            //        new UserProject()
+            //        {
+            //            Project = new Project { AppName = "project" }
+            //        }
+            //    }
+            //};
 
             var result = _userService.Add(user);
+
+            return result.Success ? Ok(result.Value)
+                : (ActionResult)NotFound();
+        }
+
+        [HttpPut]
+        public ActionResult<User> Update(User user)
+        {
+            var result = _userService.AddOrUpdateDetachedEntity(user);
+
+            return result.Success ? Ok(result.Value)
+                : (ActionResult)NotFound();
+        }
+
+        [HttpDelete("{userId}")]
+        public ActionResult<IEnumerable<User>> Delete(Guid userId)
+        {
+            var result = _userService.SoftDelete(userId);
 
             return result.Success ? Ok(result.Value)
                 : (ActionResult)NotFound();
