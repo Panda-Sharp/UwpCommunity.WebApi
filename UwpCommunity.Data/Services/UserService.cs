@@ -1,4 +1,5 @@
-﻿using UwpCommunity.Data.Interfaces;
+﻿using System.Collections.Generic;
+using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
 using Yugen.Toolkit.Standard.Data;
 using Yugen.Toolkit.Standard.Data.Interfaces;
@@ -12,5 +13,8 @@ namespace UwpCommunity.Data.Services
 
         public Result<User> SingleByDiscordId(string discordId) =>
             Single(x => x.DiscordId.Equals(discordId));
+
+        public Result<IEnumerable<User>> GetProjectsByByDiscordId(string discordId) =>
+            Get(x => x.DiscordId.Equals(discordId));
     }
 }

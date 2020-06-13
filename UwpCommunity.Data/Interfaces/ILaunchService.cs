@@ -5,10 +5,8 @@ using Yugen.Toolkit.Standard.Models;
 
 namespace UwpCommunity.Data.Interfaces
 {
-    public interface IUserService : IBaseService<User>
+    public interface ILaunchService : IBaseService<Launch>
     {
-        Result<User> SingleByDiscordId(string discordId);
-
-        Result<IEnumerable<User>> GetProjectsByByDiscordId(string discordId);
+        Result<IEnumerable<Launch>> GetProjectsByLaunchYear(string year);
     }
 }

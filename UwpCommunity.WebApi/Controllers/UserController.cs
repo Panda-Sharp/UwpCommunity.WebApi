@@ -11,15 +11,24 @@ namespace UwpCommunity.WebApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [EnableCors]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        private readonly ILogger<UserController> _logger;
+        private readonly ILogger<UsersController> _logger;
         private readonly IUserService _userService;
 
-        public UserController(ILogger<UserController> logger, IUserService userService)
+        public UsersController(ILogger<UsersController> logger, IUserService userService)
         {
             _logger = logger;
             _userService = userService;
+        }
+
+        [HttpPost]
+        public ActionResult<User> Add(User user)
+        {
+            var result = _userService.Add(user);
+
+            return result.Success ? Ok(result.Value)
+                : (ActionResult)NotFound();
         }
 
         [HttpGet]
@@ -49,27 +58,6 @@ namespace UwpCommunity.WebApi.Controllers
                 : (ActionResult)NotFound();
         }
 
-        [HttpPost]
-        public ActionResult<User> Add(User user)
-        {
-            //var user = new User
-            //{
-            //    Name = "user",
-            //    UserProjects = new List<UserProject>
-            //    {
-            //        new UserProject()
-            //        {
-            //            Project = new Project { AppName = "project" }
-            //        }
-            //    }
-            //};
-
-            var result = _userService.Add(user);
-
-            return result.Success ? Ok(result.Value)
-                : (ActionResult)NotFound();
-        }
-
         [HttpPut]
         public ActionResult<User> Update(User user)
         {
@@ -82,9 +70,9 @@ namespace UwpCommunity.WebApi.Controllers
         [HttpDelete("{userId}")]
         public ActionResult<IEnumerable<User>> Delete(Guid userId)
         {
-            var result = _userService.SoftDelete(userId);
+            var result = _userService.Delete(userId);
 
-            return result.Success ? Ok(result.Value)
+            return result.Success ? Ok()
                 : (ActionResult)NotFound();
         }
     }

@@ -51,8 +51,9 @@ namespace UwpCommunity.WebApi
                 options.UseSqlite(Configuration.GetConnectionString("SQLite")))
                     .AddUnitOfWork<UwpCommunityDbContext>();
 
-            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ILaunchService, LaunchService>();
             services.AddTransient<IProjectService, ProjectService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
