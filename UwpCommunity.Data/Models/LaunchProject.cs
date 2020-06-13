@@ -4,18 +4,14 @@ using Yugen.Toolkit.Standard.Data;
 
 namespace UwpCommunity.Data.Models
 {
-    public class UserProject : BaseEntity
+    public class LaunchProject : BaseEntity
     {
-        public Guid UserId { get; set; }
+        public Guid LaunchId { get; set; }
         [JsonIgnore]
-        public User User { get; set; }
+        public Launch Launch { get; set; }
 
         public Guid ProjectId { get; set; }
         [JsonIgnore]
         public Project Project { get; set; }
-
-        public Guid RoleId { get; set; }
-        [JsonIgnore]
-        public Role Role { get; set; }
     }
 }

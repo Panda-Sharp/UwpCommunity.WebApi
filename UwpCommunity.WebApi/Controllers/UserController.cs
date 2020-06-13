@@ -73,7 +73,7 @@ namespace UwpCommunity.WebApi.Controllers
         [HttpPut]
         public ActionResult<User> Update(User user)
         {
-            var result = _userService.AddOrUpdateDetachedEntity(user);
+            var result = _userService.UpdateDetachedEntity(user, user.UserId);
 
             return result.Success ? Ok(result.Value)
                 : (ActionResult)NotFound();

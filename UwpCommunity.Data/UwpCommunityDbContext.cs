@@ -15,15 +15,38 @@ namespace UwpCommunity.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Map(modelBuilder.Entity<User>());
+            Map(modelBuilder.Entity<Category>());
+            Map(modelBuilder.Entity<Launch>());
+            Map(modelBuilder.Entity<LaunchProject>());
             Map(modelBuilder.Entity<Project>());
+            Map(modelBuilder.Entity<Role>());
+            Map(modelBuilder.Entity<User>());
             Map(modelBuilder.Entity<UserProject>());
         }
 
-        private static void Map(EntityTypeBuilder<User> entity)
+        private static void Map(EntityTypeBuilder<Category> entity)
         {
             entity.HasQueryFilter(x => !x.IsDeleted);
             entity.HasIndex(x => x.LastUpdated);
+        }
+
+        private static void Map(EntityTypeBuilder<Launch> entity)
+        {
+            entity.HasQueryFilter(x => !x.IsDeleted);
+            entity.HasIndex(x => x.LastUpdated);
+        }
+
+        private static void Map(EntityTypeBuilder<LaunchProject> entity)
+        {
+            entity.HasKey(lp => new { lp.LaunchId, lp.ProjectId });
+
+            entity.HasOne(lp => lp.Launch)
+                .WithMany(p => p.LaunchProjects)
+                .HasForeignKey(lp => lp.LaunchId);
+
+            entity.HasOne(lp => lp.Project)
+                .WithMany(t => t.LaunchProjects)
+                .HasForeignKey(lp => lp.ProjectId);
         }
 
         private static void Map(EntityTypeBuilder<Project> entity)
@@ -32,17 +55,29 @@ namespace UwpCommunity.Data
             entity.HasIndex(x => x.LastUpdated);
         }
 
+        private static void Map(EntityTypeBuilder<Role> entity)
+        {
+            entity.HasQueryFilter(x => !x.IsDeleted);
+            entity.HasIndex(x => x.LastUpdated);
+        }
+
+        private static void Map(EntityTypeBuilder<User> entity)
+        {
+            entity.HasQueryFilter(x => !x.IsDeleted);
+            entity.HasIndex(x => x.LastUpdated);
+        }
+
         private static void Map(EntityTypeBuilder<UserProject> entity)
         {
-            entity.HasKey(asa => new { asa.UserId, asa.ProjectId });
+            entity.HasKey(up => new { up.UserId, up.ProjectId });
 
-            entity.HasOne(pt => pt.User)
+            entity.HasOne(up => up.User)
+                .WithMany(u => u.UserProjects)
+                .HasForeignKey(up => up.UserId);
+
+            entity.HasOne(up => up.Project)
                 .WithMany(p => p.UserProjects)
-                .HasForeignKey(pt => pt.UserId);
-
-            entity.HasOne(pt => pt.Project)
-                .WithMany(t => t.UserProjects)
-                .HasForeignKey(pt => pt.ProjectId);
+                .HasForeignKey(up => up.ProjectId);
         }
     }
 }
