@@ -51,8 +51,10 @@ namespace UwpCommunity.WebApi
                 options.UseSqlite(Configuration.GetConnectionString("SQLite")))
                     .AddUnitOfWork<UwpCommunityDbContext>();
 
+            services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ILaunchService, LaunchService>();
             services.AddTransient<IProjectService, ProjectService>();
+            services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
         }
 

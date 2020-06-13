@@ -51,8 +51,7 @@ namespace UwpCommunity.Data.Migrations
                     Created = table.Column<DateTimeOffset>(nullable: false),
                     LastUpdated = table.Column<DateTimeOffset>(nullable: false),
                     ClientLastUpdated = table.Column<DateTimeOffset>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    IsOwner = table.Column<bool>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -151,6 +150,7 @@ namespace UwpCommunity.Data.Migrations
                     Created = table.Column<DateTimeOffset>(nullable: false),
                     LastUpdated = table.Column<DateTimeOffset>(nullable: false),
                     ClientLastUpdated = table.Column<DateTimeOffset>(nullable: false),
+                    IsOwner = table.Column<bool>(nullable: false),
                     RoleId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>

@@ -9,7 +9,7 @@ using UwpCommunity.Data;
 namespace UwpCommunity.Data.Migrations
 {
     [DbContext(typeof(UwpCommunityDbContext))]
-    [Migration("20200613094623_V1")]
+    [Migration("20200613135038_V1")]
     partial class V1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -191,9 +191,6 @@ namespace UwpCommunity.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsOwner")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTimeOffset>("LastUpdated")
                         .HasColumnType("TEXT");
 
@@ -262,6 +259,9 @@ namespace UwpCommunity.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsOwner")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset>("LastUpdated")

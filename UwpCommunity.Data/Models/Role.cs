@@ -8,7 +8,6 @@ namespace UwpCommunity.Data.Models
     {
         public Guid RoleId { get; set; }
         public string Name { get; set; }
-        public bool IsOwner { get; set; }
 
         public List<UserProject> UserProjects { get; set; } = new List<UserProject>();
     }

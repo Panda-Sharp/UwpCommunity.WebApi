@@ -189,9 +189,6 @@ namespace UwpCommunity.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsOwner")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTimeOffset>("LastUpdated")
                         .HasColumnType("TEXT");
 
@@ -260,6 +257,9 @@ namespace UwpCommunity.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsOwner")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset>("LastUpdated")

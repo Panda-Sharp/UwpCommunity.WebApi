@@ -5,8 +5,8 @@ using Yugen.Toolkit.Standard.Data.Interfaces;
 
 namespace UwpCommunity.Data.Services
 {
-    public class ProjectService : BaseService<Project>, IProjectService
+    public class RoleService : BaseService<Role>, IRoleService
     {
-        public ProjectService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+        public RoleService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
     }
 }

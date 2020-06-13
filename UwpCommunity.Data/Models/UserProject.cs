@@ -6,6 +6,8 @@ namespace UwpCommunity.Data.Models
 {
     public class UserProject : BaseEntity
     {
+        public bool IsOwner { get; set; }
+
         public Guid UserId { get; set; }
         [JsonIgnore]
         public User User { get; set; }
