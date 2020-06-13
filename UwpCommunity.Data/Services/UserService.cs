@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
 using Yugen.Toolkit.Standard.Data;
@@ -12,9 +13,12 @@ namespace UwpCommunity.Data.Services
         public UserService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
         public Result<User> SingleByDiscordId(string discordId) =>
-            Single(x => x.DiscordId.Equals(discordId));
+            Single(x => x.DiscordId.Equals(discordId),
+                x => x.Include(y => y.UserProjects)
+                 .ThenInclude(z => z.Project));
 
         public Result<IEnumerable<User>> GetProjectsByByDiscordId(string discordId) =>
-            Get(x => x.DiscordId.Equals(discordId));
+            Get(x => x.DiscordId.Equals(discordId),
+                x => x.UserProjects);
     }
 }

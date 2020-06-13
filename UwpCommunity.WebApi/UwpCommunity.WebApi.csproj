@@ -15,7 +15,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
-    <PackageReference Include="Yugen.Toolkit.Standard.Data" Version="1.0.32" />
+    <PackageReference Include="Yugen.Toolkit.Standard.Data" Version="1.0.33" />
   </ItemGroup>
 
   <ItemGroup>

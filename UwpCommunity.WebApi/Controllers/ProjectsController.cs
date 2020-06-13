@@ -17,36 +17,51 @@ namespace UwpCommunity.WebApi.Controllers
         private readonly IProjectService _projectService;
         private readonly IUserService _userService;
         private readonly ILaunchService _launchService;
+        private readonly ICategoryService _categoryService;
+        private readonly IRoleService _roleService;
 
         public ProjectsController(ILogger<ProjectsController> logger, IProjectService projectService,
-            IUserService userService, ILaunchService launchService)
+            IUserService userService, ILaunchService launchService, ICategoryService categoryService, 
+            IRoleService roleService)
         {
             _logger = logger;
             _projectService = projectService;
             _userService = userService;
             _launchService = launchService;
+            _categoryService = categoryService;
+            _roleService = roleService;
         }
 
         [HttpPost("{discordId}")]
-        public ActionResult<Project> Add(Project project, string discordId)
+        public ActionResult<Project> Add(string discordId, Guid? categoryId, string year, Guid? roleId, Project project)
         {
             var userResult = _userService.SingleByDiscordId(discordId);
 
-            if (userResult.Success)
+            var categoryResult = categoryId != null 
+                ? _categoryService.Single(categoryId) 
+                : _categoryService.Single(1);
+
+            var launchResult = !string.IsNullOrEmpty(year)
+                ? _launchService.SingleByLaunchYear(year)
+                : _launchService.Single(1); 
+
+            var roleResult = roleId != null
+                ? _roleService.Single(roleId)
+                : _roleService.Single(1); 
+
+            if (userResult.Success && categoryResult.Success 
+                && launchResult.Success && roleResult.Success)
             {
-                project.Category = new Category { Name = "category" };
+                project.CategoryId = categoryResult.Value.CategoryId;
                 project.LaunchProjects = new List<LaunchProject>
                 {
-                    new LaunchProject
-                    {
-                        Launch =  new Launch{ Year = "2020"}
-                    }
+                    new LaunchProject { LaunchId =  launchResult.Value.LaunchId }
                 };
                 project.UserProjects = new List<UserProject>
                 {
                     new UserProject
                     {
-                        Role = new Role{ Name="role"},
+                        RoleId = roleResult.Value.RoleId,
                         User = userResult.Value
                     }
                 };

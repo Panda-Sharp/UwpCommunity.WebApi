@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
 using Yugen.Toolkit.Standard.Data;
@@ -12,6 +14,11 @@ namespace UwpCommunity.Data.Services
         public LaunchService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
         public Result<IEnumerable<Launch>> GetProjectsByLaunchYear(string year) =>
-            Get(x => x.Year.Equals(year));
+            Get(x => x.Year.Equals(year),
+                x => x.Include(y => y.LaunchProjects)
+                    .ThenInclude(z => z.Project));
+
+        public Result<Launch> SingleByLaunchYear(string year) =>
+            Single(x => x.Year.Equals(year));
     }
 }

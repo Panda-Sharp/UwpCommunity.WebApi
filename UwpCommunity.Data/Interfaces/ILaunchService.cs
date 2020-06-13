@@ -8,5 +8,7 @@ namespace UwpCommunity.Data.Interfaces
     public interface ILaunchService : IBaseService<Launch>
     {
         Result<IEnumerable<Launch>> GetProjectsByLaunchYear(string year);
+
+        Result<Launch> SingleByLaunchYear(string year);
     }
 }
