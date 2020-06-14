@@ -76,13 +76,11 @@ namespace UwpCommunity.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseCors(_myAllowSpecificOrigins);
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

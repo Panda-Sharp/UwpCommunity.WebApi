@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
+using UwpCommunity.WebApi.Attributes;
 using UwpCommunity.WebApi.Models;
 
 namespace UwpCommunity.WebApi.Controllers
@@ -33,6 +34,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpGet]
+        [DiscordRequirement]
         public ActionResult<IEnumerable<CategoryDto>> Get()
         {
             var result = _categoryService.Get();
@@ -53,6 +55,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpGet("{categoryId}")]
+        [DiscordRequirement]
         public ActionResult<CategoryDto> Get(Guid categoryId)
         {
             var result = _categoryService.Single(categoryId);
