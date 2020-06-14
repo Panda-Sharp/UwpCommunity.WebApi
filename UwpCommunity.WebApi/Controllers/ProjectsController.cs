@@ -35,7 +35,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPost("{discordId}")]
-        public ActionResult<Project> Add(string discordId, Guid? categoryId, string year, Guid? roleId, Project project)
+        public ActionResult<ProjectDto> Add(string discordId, Guid? categoryId, string year, Guid? roleId, Project project)
         {
             var userResult = _userService.SingleByDiscordId(discordId);
 
@@ -68,9 +68,9 @@ namespace UwpCommunity.WebApi.Controllers
                     }
                 };
 
-                var projectResult = _projectService.Add(project);
+                var result = _projectService.Add(project);
 
-                return projectResult.Success ? Ok(projectResult.Value)
+                return result.Success ? Ok(new ProjectDto(result.Value)) 
                     : (ActionResult)NotFound();
             }
 
@@ -78,12 +78,23 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Project>> Get()
+        public ActionResult<IEnumerable<ProjectDto>> Get()
         {
-            var result = _projectService.Get();
+            var result = _projectService.GetWithCategory();
 
-            return result.Success ? Ok(result.Value)
-                : (ActionResult)NotFound();
+            if (result.Success)
+            {
+                List<ProjectDto> projects = new List<ProjectDto>();
+                foreach(var project in result.Value)
+                {
+                    projects.Add(new ProjectDto(project));
+                }
+                return Ok(projects);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("[action]/{year}")]
@@ -119,16 +130,16 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPut]
-        public ActionResult<Project> Update(Project project)
+        public ActionResult<ProjectDto> Update(Project project)
         {
             var result = _projectService.UpdateDetachedEntity(project, project.ProjectId);
 
-            return result.Success ? Ok(result.Value)
+            return result.Success ? Ok(new ProjectDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpDelete("{projectId}")]
-        public ActionResult<IEnumerable<Project>> Delete(Guid projectId)
+        public ActionResult Delete(Guid projectId)
         {
             var result = _projectService.Delete(projectId);
 

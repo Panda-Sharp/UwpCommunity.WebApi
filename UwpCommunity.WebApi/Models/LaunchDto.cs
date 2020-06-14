@@ -8,6 +8,11 @@ namespace UwpCommunity.WebApi.Models
     {
         public LaunchDto(Launch launch)
         {
+            Index = launch.Index;
+            IsDeleted = launch.IsDeleted;
+            Created = launch.Created;
+            LastUpdated = launch.LastUpdated;
+            ClientLastUpdated = launch.ClientLastUpdated;
             LaunchId = launch.LaunchId;
             Year = launch.Year;
 

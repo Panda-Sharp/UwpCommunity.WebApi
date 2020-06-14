@@ -8,12 +8,17 @@ namespace UwpCommunity.WebApi.Models
     {
         public UserDto(User user)
         {
+            Index = user.Index;
+            IsDeleted = user.IsDeleted;
+            Created = user.Created;
+            LastUpdated = user.LastUpdated;
+            ClientLastUpdated = user.ClientLastUpdated;
             UserId = user.UserId;
             Name = user.Name;
             Email = user.Email;
             DiscordId = user.DiscordId;
 
-            foreach(var userProject in user.UserProjects)
+            foreach (var userProject in user.UserProjects)
             {
                 var projectDto = new ProjectDto(userProject.Project)
                 {

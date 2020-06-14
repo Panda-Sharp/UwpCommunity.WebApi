@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
+using UwpCommunity.WebApi.Models;
 
 namespace UwpCommunity.WebApi.Controllers
 {
@@ -23,43 +24,54 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Category> Add(Category category)
+        public ActionResult<CategoryDto> Add(Category category)
         {
             var result = _categoryService.Add(category);
 
-            return result.Success ? Ok(result.Value)
+            return result.Success ? Ok(new CategoryDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Category>> Get()
+        public ActionResult<IEnumerable<CategoryDto>> Get()
         {
             var result = _categoryService.Get();
 
-            return result.Success ? Ok(result.Value)
-                : (ActionResult)NotFound();
+            if (result.Success)
+            {
+                List<CategoryDto> categories = new List<CategoryDto>();
+                foreach (var category in result.Value)
+                {
+                    categories.Add(new CategoryDto(category));
+                }
+                return Ok(categories);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("{categoryId}")]
-        public ActionResult<IEnumerable<Category>> Get(Guid categoryId)
+        public ActionResult<CategoryDto> Get(Guid categoryId)
         {
             var result = _categoryService.Single(categoryId);
 
-            return result.Success ? Ok(result.Value)
+            return result.Success ? Ok(new CategoryDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpPut]
-        public ActionResult<Category> Update(Category category)
+        public ActionResult<CategoryDto> Update(Category category)
         {
             var result = _categoryService.UpdateDetachedEntity(category, category.CategoryId);
 
-            return result.Success ? Ok(result.Value)
+            return result.Success ? Ok(new CategoryDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpDelete("{categoryId}")]
-        public ActionResult<IEnumerable<Category>> Delete(Guid categoryId)
+        public ActionResult Delete(Guid categoryId)
         {
             var result = _categoryService.Delete(categoryId);
 

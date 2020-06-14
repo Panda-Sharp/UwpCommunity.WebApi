@@ -7,6 +7,11 @@ namespace UwpCommunity.WebApi.Models
     {
         public ProjectDto(Project project)
         {
+            Index = project.Index;
+            IsDeleted = project.IsDeleted;
+            Created = project.Created;
+            LastUpdated = project.LastUpdated;
+            ClientLastUpdated = project.ClientLastUpdated;
             ProjectId = project.ProjectId;
             AppName = project.AppName;
             Description = project.Description;

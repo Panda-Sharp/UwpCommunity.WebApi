@@ -7,6 +7,11 @@ namespace UwpCommunity.WebApi.Models
     {
         public CategoryDto(Category category)
         {
+            Index = category.Index;
+            IsDeleted = category.IsDeleted;
+            Created = category.Created;
+            LastUpdated = category.LastUpdated;
+            ClientLastUpdated = category.ClientLastUpdated;
             CategoryId = category.CategoryId;
             Name = category.Name;
         }
