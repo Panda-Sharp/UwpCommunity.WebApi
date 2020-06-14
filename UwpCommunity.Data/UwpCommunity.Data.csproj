@@ -14,7 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Yugen.Toolkit.Standard.Data" Version="1.0.33" />
+    <PackageReference Include="Yugen.Toolkit.Standard.Data" Version="1.0.34" />
   </ItemGroup>
 
 </Project>
