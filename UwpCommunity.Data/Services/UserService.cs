@@ -13,12 +13,15 @@ namespace UwpCommunity.Data.Services
         public UserService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
         public Result<User> SingleByDiscordId(string discordId) =>
-            Single(x => x.DiscordId.Equals(discordId),
-                x => x.Include(y => y.UserProjects)
-                 .ThenInclude(z => z.Project));
+            Single(user => user.DiscordId.Equals(discordId),
+                x => x.Include(user => user.UserProjects)
+                 .ThenInclude(userProject => userProject.Project)
+                    .ThenInclude(project => project.Category));
 
         public Result<IEnumerable<User>> GetProjectsByByDiscordId(string discordId) =>
-            Get(x => x.DiscordId.Equals(discordId),
-                x => x.UserProjects);
+            Get(user => user.DiscordId.Equals(discordId),
+                x => x.Include(user => user.UserProjects)
+                 .ThenInclude(userProject => userProject.Project)
+                    .ThenInclude(project => project.Category));
     }
 }

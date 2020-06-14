@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
+using UwpCommunity.WebApi.Models;
 
 namespace UwpCommunity.WebApi.Controllers
 {
@@ -85,21 +87,35 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpGet("[action]/{year}")]
-        public ActionResult<IEnumerable<Project>> Launch(string year)
+        public ActionResult<LaunchDto> Launch(string year)
         {
             var result = _launchService.GetProjectsByLaunchYear(year);
 
-            return result.Success ? Ok(result.Value)
-                : (ActionResult)NotFound();
+            if (result.Success)
+            {
+                var launchDto = new LaunchDto(result.Value.First());
+                return Ok(launchDto);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("[action]/{discordId}")]
-        public ActionResult<IEnumerable<Project>> DiscordId(string discordId)
+        public ActionResult<UserDto> DiscordId(string discordId)
         {
             var result = _userService.GetProjectsByByDiscordId(discordId);
 
-            return result.Success ? Ok(result.Value)
-                : (ActionResult)NotFound();
+            if (result.Success)
+            {
+                var userDto = new UserDto(result.Value.First());
+                return Ok(userDto);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpPut]

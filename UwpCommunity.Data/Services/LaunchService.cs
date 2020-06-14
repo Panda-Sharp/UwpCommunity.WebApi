@@ -14,9 +14,10 @@ namespace UwpCommunity.Data.Services
         public LaunchService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
         public Result<IEnumerable<Launch>> GetProjectsByLaunchYear(string year) =>
-            Get(x => x.Year.Equals(year),
-                x => x.Include(y => y.LaunchProjects)
-                    .ThenInclude(z => z.Project));
+            Get(launch => launch.Year.Equals(year),
+                x => x.Include(launch => launch.LaunchProjects)
+                    .ThenInclude(launchProject => launchProject.Project)
+                        .ThenInclude(project => project.Category));
 
         public Result<Launch> SingleByLaunchYear(string year) =>
             Single(x => x.Year.Equals(year));
