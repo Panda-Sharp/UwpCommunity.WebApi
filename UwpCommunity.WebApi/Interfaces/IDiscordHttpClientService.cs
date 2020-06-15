@@ -1,5 +1,5 @@
 ﻿using UwpCommunity.WebApi.Models.Discord;
-using Yugen.Toolkit.Standard.Models;
+using Yugen.Toolkit.Standard.Core.Models;
 
 namespace UwpCommunity.WebApi.Interfaces
 {

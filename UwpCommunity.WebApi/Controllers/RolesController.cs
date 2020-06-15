@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
+using UwpCommunity.WebApi.Attributes;
 using UwpCommunity.WebApi.Models;
 
 namespace UwpCommunity.WebApi.Controllers
@@ -24,11 +25,12 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPost]
+        [DiscordRequirement]
         public ActionResult<RoleDto> Add(Role role)
         {
             var result = _roleService.Add(role);
 
-            return result.Success ? Ok(new RoleDto(result.Value))
+            return result.IsSuccess ? Ok(new RoleDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
@@ -37,7 +39,7 @@ namespace UwpCommunity.WebApi.Controllers
         {
             var result = _roleService.Get();
 
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 List<RoleDto> roles = new List<RoleDto>();
                 foreach (var role in result.Value)
@@ -57,25 +59,27 @@ namespace UwpCommunity.WebApi.Controllers
         {
             var result = _roleService.Single(roleId);
 
-            return result.Success ? Ok(new RoleDto(result.Value))
+            return result.IsSuccess ? Ok(new RoleDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpPut]
+        [DiscordRequirement]
         public ActionResult<RoleDto> Update(Role role)
         {
             var result = _roleService.UpdateDetachedEntity(role, role.RoleId);
 
-            return result.Success ? Ok(new RoleDto(result.Value))
+            return result.IsSuccess ? Ok(new RoleDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpDelete("{roleId}")]
+        [DiscordRequirement]
         public ActionResult Delete(Guid roleId)
         {
             var result = _roleService.Delete(roleId);
 
-            return result.Success ? Ok()
+            return result.IsSuccess ? Ok()
                 : (ActionResult)NotFound();
         }
     }

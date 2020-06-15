@@ -22,7 +22,7 @@ namespace UwpCommunity.WebApi.Attributes
             var httpClientService = ServiceProviderFactory.ServiceProvider.GetService<IDiscordHttpClientService>();
             var result = httpClientService.GetDiscordUser(jWToken);
 
-            if (!result.Success)
+            if (!result.IsSuccess)
             {
                 context.Result = new ForbidResult();
             }

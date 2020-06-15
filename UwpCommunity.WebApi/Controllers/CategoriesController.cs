@@ -25,21 +25,21 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPost]
+        [DiscordRequirement]
         public ActionResult<CategoryDto> Add(Category category)
         {
             var result = _categoryService.Add(category);
 
-            return result.Success ? Ok(new CategoryDto(result.Value))
+            return result.IsSuccess ? Ok(new CategoryDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpGet]
-        [DiscordRequirement]
         public ActionResult<IEnumerable<CategoryDto>> Get()
         {
             var result = _categoryService.Get();
 
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 List<CategoryDto> categories = new List<CategoryDto>();
                 foreach (var category in result.Value)
@@ -55,30 +55,31 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpGet("{categoryId}")]
-        [DiscordRequirement]
         public ActionResult<CategoryDto> Get(Guid categoryId)
         {
             var result = _categoryService.Single(categoryId);
 
-            return result.Success ? Ok(new CategoryDto(result.Value))
+            return result.IsSuccess ? Ok(new CategoryDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpPut]
+        [DiscordRequirement]
         public ActionResult<CategoryDto> Update(Category category)
         {
             var result = _categoryService.UpdateDetachedEntity(category, category.CategoryId);
 
-            return result.Success ? Ok(new CategoryDto(result.Value))
+            return result.IsSuccess ? Ok(new CategoryDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpDelete("{categoryId}")]
+        [DiscordRequirement]
         public ActionResult Delete(Guid categoryId)
         {
             var result = _categoryService.Delete(categoryId);
 
-            return result.Success ? Ok()
+            return result.IsSuccess ? Ok()
                 : (ActionResult)NotFound();
         }
     }

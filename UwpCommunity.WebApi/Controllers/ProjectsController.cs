@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
+using UwpCommunity.WebApi.Attributes;
 using UwpCommunity.WebApi.Models;
 
 namespace UwpCommunity.WebApi.Controllers
@@ -35,6 +36,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPost("{discordId}")]
+        [DiscordRequirement]
         public ActionResult<ProjectDto> Add(string discordId, Guid? categoryId, string year, Guid? roleId, Project project)
         {
             var userResult = _userService.SingleByDiscordId(discordId);
@@ -51,8 +53,8 @@ namespace UwpCommunity.WebApi.Controllers
                 ? _roleService.Single(roleId)
                 : _roleService.Single(1); 
 
-            if (userResult.Success && categoryResult.Success 
-                && launchResult.Success && roleResult.Success)
+            if (userResult.IsSuccess && categoryResult.IsSuccess
+                && launchResult.IsSuccess && roleResult.IsSuccess)
             {
                 project.CategoryId = categoryResult.Value.CategoryId;
                 project.LaunchProjects = new List<LaunchProject>
@@ -70,7 +72,7 @@ namespace UwpCommunity.WebApi.Controllers
 
                 var result = _projectService.Add(project);
 
-                return result.Success ? Ok(new ProjectDto(result.Value)) 
+                return result.IsSuccess ? Ok(new ProjectDto(result.Value)) 
                     : (ActionResult)NotFound();
             }
 
@@ -82,7 +84,7 @@ namespace UwpCommunity.WebApi.Controllers
         {
             var result = _projectService.GetWithCategory();
 
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 List<ProjectDto> projects = new List<ProjectDto>();
                 foreach(var project in result.Value)
@@ -102,7 +104,7 @@ namespace UwpCommunity.WebApi.Controllers
         {
             var result = _launchService.GetProjectsByLaunchYear(year);
 
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 var launchDto = new LaunchDto(result.Value.First());
                 return Ok(launchDto);
@@ -114,11 +116,12 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpGet("[action]/{discordId}")]
+        [DiscordRequirement]
         public ActionResult<UserDto> DiscordId(string discordId)
         {
             var result = _userService.GetProjectsByByDiscordId(discordId);
 
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 var userDto = new UserDto(result.Value.First());
                 return Ok(userDto);
@@ -130,20 +133,22 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPut]
+        [DiscordRequirement]
         public ActionResult<ProjectDto> Update(Project project)
         {
             var result = _projectService.UpdateDetachedEntity(project, project.ProjectId);
 
-            return result.Success ? Ok(new ProjectDto(result.Value))
+            return result.IsSuccess ? Ok(new ProjectDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpDelete("{projectId}")]
+        [DiscordRequirement]
         public ActionResult Delete(Guid projectId)
         {
             var result = _projectService.Delete(projectId);
 
-            return result.Success ? Ok()
+            return result.IsSuccess ? Ok()
                 : (ActionResult)NotFound();
         }
     }

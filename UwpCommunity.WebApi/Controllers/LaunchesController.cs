@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
+using UwpCommunity.WebApi.Attributes;
 using UwpCommunity.WebApi.Models;
 
 namespace UwpCommunity.WebApi.Controllers
@@ -24,11 +25,12 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPost]
+        [DiscordRequirement]
         public ActionResult<LaunchDto> Add(Launch launch)
         {
             var result = _launchService.Add(launch);
 
-            return result.Success ? Ok(new LaunchDto(result.Value))
+            return result.IsSuccess ? Ok(new LaunchDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
@@ -37,7 +39,7 @@ namespace UwpCommunity.WebApi.Controllers
         {
             var result = _launchService.Get();
 
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 List<LaunchDto> launches = new List<LaunchDto>();
                 foreach (var launch in result.Value)
@@ -57,25 +59,27 @@ namespace UwpCommunity.WebApi.Controllers
         {
             var result = _launchService.Single(launchId);
 
-            return result.Success ? Ok(new LaunchDto(result.Value))
+            return result.IsSuccess ? Ok(new LaunchDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpPut]
+        [DiscordRequirement]
         public ActionResult<LaunchDto> Update(Launch launch)
         {
             var result = _launchService.UpdateDetachedEntity(launch, launch.LaunchId);
 
-            return result.Success ? Ok(new LaunchDto(result.Value))
+            return result.IsSuccess ? Ok(new LaunchDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpDelete("{launchId}")]
+        [DiscordRequirement]
         public ActionResult Delete(Guid launchId)
         {
             var result = _launchService.Delete(launchId);
 
-            return result.Success ? Ok()
+            return result.IsSuccess ? Ok()
                 : (ActionResult)NotFound();
         }
     }

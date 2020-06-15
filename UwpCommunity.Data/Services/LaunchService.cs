@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
 using Yugen.Toolkit.Standard.Data;
 using Yugen.Toolkit.Standard.Data.Interfaces;
-using Yugen.Toolkit.Standard.Models;
+using Yugen.Toolkit.Standard.Core.Models;
 
 namespace UwpCommunity.Data.Services
 {

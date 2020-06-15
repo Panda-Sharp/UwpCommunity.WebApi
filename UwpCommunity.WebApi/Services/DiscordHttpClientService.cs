@@ -2,7 +2,7 @@
 using System.Text.Json;
 using UwpCommunity.WebApi.Interfaces;
 using UwpCommunity.WebApi.Models.Discord;
-using Yugen.Toolkit.Standard.Models;
+using Yugen.Toolkit.Standard.Core.Models;
 
 namespace UwpCommunity.WebApi.Services
 {
@@ -13,11 +13,13 @@ namespace UwpCommunity.WebApi.Services
 
         public Result<DiscordUser> GetDiscordUser(string accessToken)
         {
+            httpClient.DefaultRequestHeaders.Remove("Authorization");
             httpClient.DefaultRequestHeaders.Add("Authorization", accessToken);
+
             var response = httpClient.GetAsync($"{url}/v6/users/@me").Result;
             var content = response.Content.ReadAsStringAsync().Result;
             var discordUser = JsonSerializer.Deserialize<DiscordUser>(content);
-            return Result.IsOk(discordUser, response.IsSuccessStatusCode, "");
+            return Result.IsOk(response.IsSuccessStatusCode, discordUser, "");
         }
     }
 }

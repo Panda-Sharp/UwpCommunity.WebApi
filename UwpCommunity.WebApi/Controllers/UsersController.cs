@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
+using UwpCommunity.WebApi.Attributes;
 using UwpCommunity.WebApi.Models;
 
 namespace UwpCommunity.WebApi.Controllers
@@ -24,11 +25,12 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPost]
+        [DiscordRequirement]
         public ActionResult<UserDto> Add(User user)
         {
             var result = _userService.Add(user);
 
-            return result.Success ? Ok(new UserDto(result.Value))
+            return result.IsSuccess ? Ok(new UserDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
@@ -37,7 +39,7 @@ namespace UwpCommunity.WebApi.Controllers
         {
             var result = _userService.Get();
 
-            if (result.Success)
+            if (result.IsSuccess)
             {
                 List<UserDto> users = new List<UserDto>();
                 foreach (var user in result.Value)
@@ -57,7 +59,7 @@ namespace UwpCommunity.WebApi.Controllers
         {
             var result = _userService.Single(userId);
 
-            return result.Success ? Ok(new UserDto(result.Value))
+            return result.IsSuccess ? Ok(new UserDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
@@ -66,25 +68,27 @@ namespace UwpCommunity.WebApi.Controllers
         {
             var result = _userService.SingleByDiscordId(discordId);
 
-            return result.Success ? Ok(new UserDto(result.Value))
+            return result.IsSuccess ? Ok(new UserDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpPut]
+        [DiscordRequirement]
         public ActionResult<UserDto> Update(User user)
         {
             var result = _userService.UpdateDetachedEntity(user, user.UserId);
 
-            return result.Success ? Ok(new UserDto(result.Value))
+            return result.IsSuccess ? Ok(new UserDto(result.Value))
                 : (ActionResult)NotFound();
         }
 
         [HttpDelete("{userId}")]
+        [DiscordRequirement]
         public ActionResult Delete(Guid userId)
         {
             var result = _userService.Delete(userId);
 
-            return result.Success ? Ok()
+            return result.IsSuccess ? Ok()
                 : (ActionResult)NotFound();
         }
     }
