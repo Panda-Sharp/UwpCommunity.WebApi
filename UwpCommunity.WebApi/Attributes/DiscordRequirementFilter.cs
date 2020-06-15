@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using System.Net.Http;
+using UwpCommunity.WebApi.Factories;
+using UwpCommunity.WebApi.Interfaces;
 
 namespace UwpCommunity.WebApi.Attributes
 {
@@ -17,14 +19,14 @@ namespace UwpCommunity.WebApi.Attributes
                 return;
             }
 
-            HttpClient httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("Authorization", jWToken);
-            var response = httpClient.GetAsync("https://discordapp.com/api/v6/users/@me").Result;
+            var httpClientService = ServiceProviderFactory.ServiceProvider.GetService<IDiscordHttpClientService>();
+            var result = httpClientService.GetDiscordUser(jWToken);
 
-            if (!response.IsSuccessStatusCode)
+            if (!result.Success)
             {
                 context.Result = new ForbidResult();
             }
         }
     }
+
 }

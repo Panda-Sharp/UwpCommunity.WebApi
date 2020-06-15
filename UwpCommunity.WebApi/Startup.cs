@@ -1,14 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using UwpCommunity.Data;
-using UwpCommunity.Data.Interfaces;
-using UwpCommunity.Data.Services;
-using Yugen.Toolkit.Standard.Data.Extensions;
+using UwpCommunity.WebApi.Factories;
 
 /// <summary>
 /// Add a reference to Yugen.Toolkit.Standard.Data
@@ -50,15 +46,7 @@ namespace UwpCommunity.WebApi
 
             services.AddControllers();
 
-            services.AddDbContext<UwpCommunityDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("SQLite")))
-                    .AddUnitOfWork<UwpCommunityDbContext>();
-
-            services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<ILaunchService, LaunchService>();
-            services.AddTransient<IProjectService, ProjectService>();
-            services.AddTransient<IRoleService, RoleService>();
-            services.AddTransient<IUserService, UserService>();
+            ServiceProviderFactory.RegisterServices(services, Configuration);
 
             services.AddMvc();
 
