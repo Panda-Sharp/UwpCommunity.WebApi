@@ -6,6 +6,7 @@ using UwpCommunity.Data;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Services;
 using UwpCommunity.WebApi.Interfaces;
+using UwpCommunity.WebApi.Models.Discord;
 using UwpCommunity.WebApi.Services;
 using Yugen.Toolkit.Standard.Data.Extensions;
 
@@ -26,7 +27,11 @@ namespace UwpCommunity.WebApi.Factories
             services.AddTransient<IProjectService, ProjectService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
+
             services.AddSingleton<IDiscordHttpClientService, DiscordHttpClientService>();
+
+            var discordSettings = configuration.GetSection("Discord").Get<DiscordSettings>();
+            services.AddSingleton<IDiscordBotService, DiscordBotService>(x => new DiscordBotService(discordSettings));
 
             ServiceProvider = services.BuildServiceProvider();
         }

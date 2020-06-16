@@ -7,5 +7,4 @@ namespace UwpCommunity.WebApi.Interfaces
     {
         Result<DiscordUser> GetDiscordUser(string accessToken);
     }
-
 }
