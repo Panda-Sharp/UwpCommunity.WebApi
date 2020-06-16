@@ -1,5 +1,4 @@
 ﻿using DSharpPlus;
-using System.Text.Json;
 using System.Threading.Tasks;
 using UwpCommunity.WebApi.Interfaces;
 using UwpCommunity.WebApi.Models.Discord;
@@ -26,39 +25,40 @@ namespace UwpCommunity.WebApi.Services
                 TokenType = TokenType.Bot
             });
 
-            InitPingPong();
-
-            InitUser();
+            discord.MessageCreated += async e =>
+            {
+                if (e.Message.Content.StartsWith("!"))
+                {
+                    var response = "";
+                    var command = new DiscordBotCommand(e.Message.Content);
+                    switch (command.Command)
+                    {
+                        case Commands.Ping:
+                            response = PingPong();
+                            break;
+                        case Commands.User:
+                            response = await User(command.Parameter);
+                            break;
+                    }
+                    await e.Message.RespondAsync(response);
+                }
+            };
 
             await discord.ConnectAsync();
         }
 
-        private void InitPingPong()
+
+        private string PingPong()
         {
-            discord.MessageCreated += async e =>
-            {
-                if (e.Message.Content.ToLower().StartsWith("ping"))
-                {
-                    await e.Message.RespondAsync("pong!");
-                }
-            };
+            return "pong!";
         }
 
-        private void InitUser()
+        private async Task<string> User(string userId)
         {
-            discord.MessageCreated += async e =>
-            {
-                if (e.Message.Content.ToLower().StartsWith("!user"))
-                {
-                    var resultJson = await GetUser("586466393969655819");
+            var resultJson = await GetUser(userId);
+            //var result = JsonSerializer.Serialize(resultJson);
 
-                    //var result = JsonSerializer.Serialize(resultJson);
-
-                    var message = (resultJson != null) ? resultJson.Username : "not found";
-
-                    await e.Message.RespondAsync(message);                     
-                }
-            };
+            return (resultJson != null) ? resultJson.Username : "not found";
         }
 
         public async Task<DSharpPlus.Entities.DiscordUser> GetUser(string _userId)
