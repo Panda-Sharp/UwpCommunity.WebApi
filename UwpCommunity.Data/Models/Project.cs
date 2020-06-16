@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 using Yugen.Toolkit.Standard.Data;
 
 namespace UwpCommunity.Data.Models
@@ -20,7 +19,6 @@ namespace UwpCommunity.Data.Models
         public string HeroImage { get; set; }
 
         public Guid CategoryId { get; set; }
-        [JsonIgnore]
         public Category Category { get; set; }
 
         public List<UserProject> UserProjects { get; set; } = new List<UserProject>();

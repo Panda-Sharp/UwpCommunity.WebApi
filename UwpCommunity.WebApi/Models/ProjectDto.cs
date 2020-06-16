@@ -23,7 +23,13 @@ namespace UwpCommunity.WebApi.Models
             NeedsManualReview = project.NeedsManualReview;
             LookingForRoles = project.LookingForRoles;
             HeroImage = project.HeroImage;
-            Category = new CategoryDto(project.Category);
+
+            CategoryId = project.CategoryId;
+            
+            if (project.Category != null)
+            {
+                Category = new CategoryDto(project.Category);
+            }
         }
 
         public Guid ProjectId { get; set; }
