@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using UwpCommunity.WebApi.Factories;
+using UwpCommunity.WebApi.Interfaces;
 
 /// <summary>
 /// Add a reference to Yugen.Toolkit.Standard.Data
@@ -81,6 +82,8 @@ namespace UwpCommunity.WebApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
             });
+
+            var _ = ServiceProviderFactory.ServiceProvider.GetService<IDiscordBotService>();
         }
     }
 }
