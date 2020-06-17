@@ -1,4 +1,5 @@
 ﻿using DSharpPlus;
+using System.Linq;
 using System.Threading.Tasks;
 using UwpCommunity.WebApi.BotCommands;
 using UwpCommunity.WebApi.Interfaces;
@@ -60,6 +61,19 @@ namespace UwpCommunity.WebApi.Services
         {
             var isSuccess = ulong.TryParse(_userId, out ulong userId);
             return isSuccess ? await discord.GetUserAsync(userId) : null;
+        }
+
+        public async Task<DSharpPlus.Entities.DiscordGuild> GetGuild()
+        {
+            var isSuccess = ulong.TryParse(discordSettings.GuildId, out ulong guildId);
+            return isSuccess ? await discord.GetGuildAsync(guildId) : null;
+        }
+
+        public async Task<DSharpPlus.Entities.DiscordMember> GetGuild(ulong _userId)
+        {
+            var guildResult = await GetGuild();
+
+            return guildResult.Members.FirstOrDefault(x => x.Id.Equals(_userId));
         }
     }
 }

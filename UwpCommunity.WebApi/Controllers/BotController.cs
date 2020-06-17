@@ -21,7 +21,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpGet("{userId}")]
-        public async Task<ActionResult<DSharpPlus.Entities.DiscordUser>> GetUserAsync(string userId)
+        public async Task<ActionResult<DSharpPlus.Entities.DiscordUser>> UserAsync(string userId)
         {
             var result = await _discordBotService.GetUser(userId);
 
