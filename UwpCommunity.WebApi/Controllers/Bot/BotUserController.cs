@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 using System.Threading.Tasks;
 using UwpCommunity.WebApi.Interfaces;
 
 namespace UwpCommunity.WebApi.Controllers
 {
     [ApiController]
-    [Route("bot/user/[action]")]
+    [Area("bot")]
+    [Route("[area]/[action]")]
     [EnableCors]
     public class BotUserController : ControllerBase
     {
@@ -22,18 +22,11 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpGet("{userId}")]
-        public async Task<ActionResult<DSharpPlus.Entities.DiscordGuild>> RolesAsync(string userId)
+        public async Task<ActionResult<DSharpPlus.Entities.DiscordUser>> UserAsync(string userId)
         {
-            var userResult = await _discordBotService.GetUser(userId);
+            var result = await _discordBotService.GetUser(userId);
 
-            if (userResult == null)
-            {
-                return NotFound();
-            }
-
-            var guildResult = await _discordBotService.GetGuild(userResult.Id);
-
-            return (guildResult != null) ? Ok(guildResult.Roles)
+            return (result != null) ? Ok(result)
                 : (ActionResult)NotFound();
         }
     }
