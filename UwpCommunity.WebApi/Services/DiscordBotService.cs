@@ -1,5 +1,6 @@
 ﻿using DSharpPlus;
 using System.Threading.Tasks;
+using UwpCommunity.WebApi.BotCommands;
 using UwpCommunity.WebApi.Interfaces;
 using UwpCommunity.WebApi.Models.Discord;
 
@@ -30,35 +31,29 @@ namespace UwpCommunity.WebApi.Services
                 if (e.Message.Content.StartsWith("!"))
                 {
                     var response = "";
-                    var command = new DiscordBotCommand(e.Message.Content);
-                    switch (command.Command)
+                    var botCommand = new DiscordBotCommand(e.Message.Content);
+                    IBotCommand botCommand1 = null;
+
+                    switch (botCommand.Command)
                     {
                         case Commands.Ping:
-                            response = PingPong();
+                            botCommand1 = new PingBotCommand();
                             break;
                         case Commands.User:
-                            response = await User(command.Parameter);
+                            botCommand1 = new UserBotCommand(this);
                             break;
                     }
+
+                    if(botCommand1 != null)
+                    {
+                        response = await botCommand1.Execute(botCommand);
+                    }
+
                     await e.Message.RespondAsync(response);
                 }
             };
 
             await discord.ConnectAsync();
-        }
-
-
-        private string PingPong()
-        {
-            return "pong!";
-        }
-
-        private async Task<string> User(string userId)
-        {
-            var resultJson = await GetUser(userId);
-            //var result = JsonSerializer.Serialize(resultJson);
-
-            return (resultJson != null) ? resultJson.Username : "not found";
         }
 
         public async Task<DSharpPlus.Entities.DiscordUser> GetUser(string _userId)

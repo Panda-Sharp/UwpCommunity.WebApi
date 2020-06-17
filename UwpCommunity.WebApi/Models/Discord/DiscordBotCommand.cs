@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Net.NetworkInformation;
 
 namespace UwpCommunity.WebApi.Models.Discord
 {
@@ -7,26 +8,17 @@ namespace UwpCommunity.WebApi.Models.Discord
         public DiscordBotCommand(string message)
         {
             var command = message.Split("!");
-
             var parameters = command[1].Split(" ");
 
-            switch (parameters[0])
-            {
-                case "ping":
-                    Command = Commands.Ping;
-                    break;
-                case "user":
-                    Command = Commands.User;
-                    break;
-            }
+            Command = parameters[0];
 
-            if(parameters.Count() > 1)
+            if (parameters.Count() > 1)
             {
-                Parameter = parameters[1];
+                Parameters = parameters.Skip(1).ToArray();
             }
         }
 
-        public Commands Command { get; set; }
-        public string Parameter { get; set; }
+        public string Command { get; set; }
+        public string[] Parameters { get; set; }
     }
 }

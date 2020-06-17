@@ -1,9 +1,8 @@
 ﻿namespace UwpCommunity.WebApi.Models.Discord
 {
-    public enum Commands
+    public static class Commands
     {
-        Null,
-        Ping,
-        User
+        public const string Ping = "ping";
+        public const string User = "user";
     }
 }
