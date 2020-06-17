@@ -72,8 +72,15 @@ namespace UwpCommunity.WebApi.Services
         public async Task<DSharpPlus.Entities.DiscordMember> GetGuild(ulong _userId)
         {
             var guildResult = await GetGuild();
-
             return guildResult.Members.FirstOrDefault(x => x.Id.Equals(_userId));
+        }
+
+
+        // TODO: we need a better way to get the channel we need another way to get the permissions
+        public async Task<DSharpPlus.Entities.DiscordChannel> GetChannel()
+        {
+            // Id = 681636229389090879
+            return await discord.GetChannelAsync(681636229389090879);
         }
     }
 }

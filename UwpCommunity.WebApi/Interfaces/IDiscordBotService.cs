@@ -9,5 +9,6 @@ namespace UwpCommunity.WebApi.Interfaces
         Task<DSharpPlus.Entities.DiscordGuild> GetGuild();
 
         Task<DSharpPlus.Entities.DiscordMember> GetGuild(ulong _userId);
+        Task<DSharpPlus.Entities.DiscordChannel> GetChannel();
     }
 }
