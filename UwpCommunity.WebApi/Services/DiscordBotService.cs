@@ -1,8 +1,9 @@
 ﻿using DSharpPlus;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using UwpCommunity.WebApi.BotCommands;
 using UwpCommunity.WebApi.Interfaces;
+using UwpCommunity.WebApi.Models.Bot;
 using UwpCommunity.WebApi.Models.Discord;
 
 namespace UwpCommunity.WebApi.Services
@@ -32,22 +33,13 @@ namespace UwpCommunity.WebApi.Services
                 if (e.Message.Content.StartsWith("!"))
                 {
                     var response = "";
-                    var botCommand = new DiscordBotCommand(e.Message.Content);
-                    IBotCommand botCommand1 = null;
+                    var discordBotCommand = new DiscordBotCommand(e.Message.Content);
 
-                    switch (botCommand.Command)
-                    {
-                        case Commands.Ping:
-                            botCommand1 = new PingBotCommand();
-                            break;
-                        case Commands.User:
-                            botCommand1 = new UserBotCommand(this);
-                            break;
-                    }
+                    Commands.List.TryGetValue(discordBotCommand.Command, out IBotCommand botCommand);
 
-                    if(botCommand1 != null)
+                    if(botCommand != null)
                     {
-                        response = await botCommand1.Execute(botCommand);
+                        response = await botCommand.Execute(discordBotCommand);
                     }
 
                     await e.Message.RespondAsync(response);
@@ -57,11 +49,18 @@ namespace UwpCommunity.WebApi.Services
             await discord.ConnectAsync();
         }
 
-        public async Task<DSharpPlus.Entities.DiscordUser> GetUser(string _userId)
+        public async Task<DSharpPlus.Entities.DiscordUser> GetUserByDiscordId(string discordId)
         {
-            var isSuccess = ulong.TryParse(_userId, out ulong userId);
+            var isSuccess = ulong.TryParse(discordId, out ulong userId);
             return isSuccess ? await discord.GetUserAsync(userId) : null;
         }
+
+        public async Task<DSharpPlus.Entities.DiscordUser> GetUserByUsername(string username)
+        {
+            var guild = await GetGuild();
+            return guild.Members.FirstOrDefault(x => x.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+        }
+
 
         public async Task<DSharpPlus.Entities.DiscordGuild> GetGuild()
         {
@@ -69,18 +68,27 @@ namespace UwpCommunity.WebApi.Services
             return isSuccess ? await discord.GetGuildAsync(guildId) : null;
         }
 
-        public async Task<DSharpPlus.Entities.DiscordMember> GetGuild(ulong _userId)
+        public async Task<DSharpPlus.Entities.DiscordMember> GetGuild(ulong discordId)
         {
-            var guildResult = await GetGuild();
-            return guildResult.Members.FirstOrDefault(x => x.Id.Equals(_userId));
+            var guild = await GetGuild();
+            return guild.Members.FirstOrDefault(x => x.Id.Equals(discordId));
         }
 
 
-        // TODO: we need a better way to get the channel we need another way to get the permissions
-        public async Task<DSharpPlus.Entities.DiscordChannel> GetChannel()
+        public async Task<DSharpPlus.Entities.DiscordChannel> GetChannelGeneral()
         {
-            // Id = 681636229389090879
-            return await discord.GetChannelAsync(681636229389090879);
+            return await GetChannel("General");
+        }
+
+        public async Task<DSharpPlus.Entities.DiscordChannel> GetChannel(string channelName)
+        {
+            var guild = await GetGuild();
+            return guild.Channels.FirstOrDefault(x => x.Name.Equals(channelName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public async Task<DSharpPlus.Entities.DiscordChannel> GetChannel(ulong channelId)
+        {
+            return await discord.GetChannelAsync(channelId);
         }
     }
 }

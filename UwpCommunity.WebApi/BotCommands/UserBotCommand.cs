@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json;
+using System.Threading.Tasks;
+using UwpCommunity.WebApi.Factories;
 using UwpCommunity.WebApi.Interfaces;
+using UwpCommunity.WebApi.Models.Bot;
 using UwpCommunity.WebApi.Models.Discord;
 
 namespace UwpCommunity.WebApi.BotCommands
@@ -8,9 +12,9 @@ namespace UwpCommunity.WebApi.BotCommands
     {
         private readonly IDiscordBotService _discordBotService;
 
-        public UserBotCommand(IDiscordBotService discordBotService)
+        public UserBotCommand()
         {
-            _discordBotService = discordBotService;
+            _discordBotService = ServiceProviderFactory.ServiceProvider.GetService<IDiscordBotService>();
         }
 
         public async Task<string> Execute(DiscordBotCommand discordBotCommand)
@@ -20,10 +24,11 @@ namespace UwpCommunity.WebApi.BotCommands
 
         private async Task<string> User(string userId)
         {
-            var resultJson = await _discordBotService.GetUser(userId);
-            //var result = JsonSerializer.Serialize(resultJson);
+            var resultJson = await _discordBotService.GetUserByDiscordId(userId);
+            var discordUser = new DiscordUserDto(resultJson);
 
-            return (resultJson != null) ? resultJson.Username : "not found";
+            return (discordUser != null)
+                ? JsonSerializer.Serialize(discordUser) : "not found";
         }
     }
 }

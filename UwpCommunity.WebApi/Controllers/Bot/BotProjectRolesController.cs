@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using UwpCommunity.Data.Interfaces;
@@ -32,7 +33,7 @@ namespace UwpCommunity.WebApi.Controllers
         [DiscordRequirement]
         public async Task<ActionResult<DSharpPlus.Entities.DiscordGuild>> PutAsync(string userId, DiscordAppRole appRole)
         {
-            var user = await _discordBotService.GetUser(userId);
+            var user = await _discordBotService.GetUserByDiscordId(userId);
 
             if (user == null)
             {
@@ -62,15 +63,12 @@ namespace UwpCommunity.WebApi.Controllers
 
             var roleName = $"{appRole.AppName} {appRole.SubRole}";
 
-            var _role = guild.Roles.FirstOrDefault(x => x.Name.Equals(roleName));
+            var role = guild.Roles.FirstOrDefault(x => x.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase));
 
-            if (_role != null)
+            if (role == null)
             {
-                return NotFound();
+                role = await guild.CreateRoleAsync(roleName, null, new DiscordColor(appRole.Color), null, true);
             }
-
-            // TODO: create a new role with roleName, mentionable, color
-            //await guildMember.GrantRoleAsync(_role);
 
             return (guildMember != null) ? Ok(guildMember.Roles)
                 : (ActionResult)NotFound();

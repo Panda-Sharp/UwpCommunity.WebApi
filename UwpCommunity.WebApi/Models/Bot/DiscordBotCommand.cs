@@ -1,7 +1,6 @@
 ﻿using System.Linq;
-using System.Net.NetworkInformation;
 
-namespace UwpCommunity.WebApi.Models.Discord
+namespace UwpCommunity.WebApi.Models.Bot
 {
     public class DiscordBotCommand
     {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using UwpCommunity.WebApi.Attributes;
@@ -27,7 +28,7 @@ namespace UwpCommunity.WebApi.Controllers
         [HttpGet("{userId}")]
         public async Task<ActionResult<DSharpPlus.Entities.DiscordGuild>> GetAsync(string userId)
         {
-            var userResult = await _discordBotService.GetUser(userId);
+            var userResult = await _discordBotService.GetUserByDiscordId(userId);
 
             if (userResult == null)
             {
@@ -44,7 +45,7 @@ namespace UwpCommunity.WebApi.Controllers
         [DiscordRequirement]
         public async Task<ActionResult<DSharpPlus.Entities.DiscordGuild>> PutAsync(string userId, DiscordRole role)
         {
-            var user = await _discordBotService.GetUser(userId);
+            var user = await _discordBotService.GetUserByDiscordId(userId);
 
             if (user == null)
             {
@@ -60,8 +61,7 @@ namespace UwpCommunity.WebApi.Controllers
 
             if (userId != user.Id.ToString())
             {
-                // TODO: we need another way to get the permissions or we need a better way to get the channel
-                var channel = await _discordBotService.GetChannel();
+                var channel = await _discordBotService.GetChannelGeneral();
                 var permissions = guildMember.PermissionsIn(channel);
                 // If these are mismatched but the user has permission to edit roles, allow it
                 if (permissions == DSharpPlus.Permissions.ManageRoles)
@@ -82,7 +82,7 @@ namespace UwpCommunity.WebApi.Controllers
                 return NotFound();
             }
 
-            var _role = guild.Roles.FirstOrDefault(x => x.Name.Equals(role.Role));
+            var _role = guild.Roles.FirstOrDefault(x => x.Name.Equals(role.Role, StringComparison.OrdinalIgnoreCase));
 
             if (_role != null)
             {
@@ -97,7 +97,7 @@ namespace UwpCommunity.WebApi.Controllers
         [DiscordRequirement]
         public async Task<ActionResult<DSharpPlus.Entities.DiscordGuild>> DeleteAsync(string userId, DiscordRole role)
         {
-            var user = await _discordBotService.GetUser(userId);
+            var user = await _discordBotService.GetUserByDiscordId(userId);
 
             if (user == null)
             {
@@ -118,7 +118,7 @@ namespace UwpCommunity.WebApi.Controllers
                 return NotFound();
             }
 
-            var _role = guild.Roles.FirstOrDefault(x => x.Name.Equals(role.Role));
+            var _role = guild.Roles.FirstOrDefault(x => x.Name.Equals(role.Role, StringComparison.OrdinalIgnoreCase));
 
             if (_role != null)
             {

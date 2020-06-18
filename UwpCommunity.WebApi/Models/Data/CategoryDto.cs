@@ -1,7 +1,7 @@
 ﻿using System;
 using UwpCommunity.Data.Models;
 
-namespace UwpCommunity.WebApi.Models
+namespace UwpCommunity.WebApi.Models.Data
 {
     public class CategoryDto : BaseDto
     {

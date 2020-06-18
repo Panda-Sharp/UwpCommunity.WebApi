@@ -1,7 +1,7 @@
 ﻿using System;
 using UwpCommunity.Data.Models;
 
-namespace UwpCommunity.WebApi.Models
+namespace UwpCommunity.WebApi.Models.Data
 {
     public class ProjectDto : BaseDto
     {
@@ -25,7 +25,7 @@ namespace UwpCommunity.WebApi.Models
             HeroImage = project.HeroImage;
 
             CategoryId = project.CategoryId;
-            
+
             if (project.Category != null)
             {
                 Category = new CategoryDto(project.Category);

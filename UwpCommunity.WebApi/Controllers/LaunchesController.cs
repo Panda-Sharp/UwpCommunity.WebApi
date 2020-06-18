@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
 using UwpCommunity.WebApi.Attributes;
-using UwpCommunity.WebApi.Models;
+using UwpCommunity.WebApi.Models.Data;
 
 namespace UwpCommunity.WebApi.Controllers
 {

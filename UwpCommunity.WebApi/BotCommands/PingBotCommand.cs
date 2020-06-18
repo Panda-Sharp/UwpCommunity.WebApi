@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using UwpCommunity.WebApi.Interfaces;
-using UwpCommunity.WebApi.Models.Discord;
+using UwpCommunity.WebApi.Models.Bot;
 
 namespace UwpCommunity.WebApi.BotCommands
 {
