@@ -1,12 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using UwpCommunity.WebApi.Factories;
 using UwpCommunity.WebApi.Interfaces;
 using UwpCommunity.WebApi.Models.Bot;
-using UwpCommunity.WebApi.Models.Discord;
 
 namespace UwpCommunity.WebApi.BotCommands
 {
@@ -34,14 +32,18 @@ namespace UwpCommunity.WebApi.BotCommands
             {
                 return "not found";
             }
-
-            //var numberOfMembers = discordRole.mem.size;
+           
+            var numberOfMembers = guild.Members.Count(
+                                    x => x.Roles.Any(
+                                        x => x.Equals(discordRole)));
             var dateRoleCreated = discordRole.CreationTimestamp.ToString();
             var mentionable = discordRole.IsMentionable;
 
-            return $"dateRoleCreated: {dateRoleCreated}" +
+            return $"Member count: {numberOfMembers}" +
+                   Environment.NewLine + 
+                   $"Date created: {dateRoleCreated}" +
                    Environment.NewLine +
-                   $"mentionable: {mentionable}";
+                   $"Mentionable: {mentionable}";
         }
     }
 }
