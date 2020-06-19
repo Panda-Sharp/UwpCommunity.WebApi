@@ -16,11 +16,9 @@ namespace UwpCommunity.WebApi.Services
         public DiscordBotService(DiscordSettings discordSettings)
         {
             this.discordSettings = discordSettings;
-
-            Init();
         }
 
-        private async void Init()
+        public async Task Init()
         {
             discord = new DiscordClient(new DiscordConfiguration
             {
@@ -35,7 +33,7 @@ namespace UwpCommunity.WebApi.Services
                     var response = "";
                     var discordBotCommand = new DiscordBotCommand(e.Message.Content);
 
-                    Commands.List.TryGetValue(discordBotCommand.Command, out IBotCommand botCommand);
+                    DiscordBotCommand.List.TryGetValue(discordBotCommand.Command, out IBotCommand botCommand);
 
                     if(botCommand != null)
                     {

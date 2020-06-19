@@ -1,9 +1,20 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UwpCommunity.WebApi.BotCommands;
+using UwpCommunity.WebApi.Interfaces;
 
 namespace UwpCommunity.WebApi.Models.Bot
 {
     public class DiscordBotCommand
     {
+        public static Dictionary<string, IBotCommand> List = new Dictionary<string, IBotCommand>()
+        {
+            {"nping", new PingBotCommand() },
+            {"ngetuser",new UserBotCommand() },
+            //{"nnews",new NewsBotCommand() },
+            {"nroleinfo",new RoleInfoBotCommand() },
+        };
+
         public DiscordBotCommand(string message)
         {
             var command = message.Split("!");

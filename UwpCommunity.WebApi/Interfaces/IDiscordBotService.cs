@@ -4,6 +4,8 @@ namespace UwpCommunity.WebApi.Interfaces
 {
     public interface IDiscordBotService
     {
+        Task Init();
+
         Task<DSharpPlus.Entities.DiscordUser> GetUserByDiscordId(string discordId);
         Task<DSharpPlus.Entities.DiscordUser> GetUserByUsername(string username);
 
