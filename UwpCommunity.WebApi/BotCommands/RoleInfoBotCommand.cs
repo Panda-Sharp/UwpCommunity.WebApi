@@ -19,10 +19,10 @@ namespace UwpCommunity.WebApi.BotCommands
 
         public async Task<string> Execute(DiscordBotCommand discordBotCommand)
         {
-            return await User(discordBotCommand.Parameters[0]);
+            return await GetRole(discordBotCommand.Parameters[0]);
         }
 
-        private async Task<string> User(string role)
+        private async Task<string> GetRole(string role)
         {
             var guild = await _discordBotService.GetGuild();
 
@@ -30,7 +30,7 @@ namespace UwpCommunity.WebApi.BotCommands
 
             if(discordRole == null)
             {
-                return "not found";
+                return "Not found";
             }
            
             var numberOfMembers = guild.Members.Count(

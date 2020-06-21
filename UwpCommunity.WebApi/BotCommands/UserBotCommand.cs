@@ -19,10 +19,10 @@ namespace UwpCommunity.WebApi.BotCommands
 
         public async Task<string> Execute(DiscordBotCommand discordBotCommand)
         {
-            return await User(discordBotCommand.Parameters[0]);
+            return await GetUser(discordBotCommand.Parameters[0]);
         }
 
-        private async Task<string> User(string userId)
+        private async Task<string> GetUser(string userId)
         {
             var resultJson = await _discordBotService.GetUserByDiscordId(userId);
             var discordUser = new DiscordUserDto(resultJson);

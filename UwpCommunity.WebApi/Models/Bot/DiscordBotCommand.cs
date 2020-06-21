@@ -11,7 +11,7 @@ namespace UwpCommunity.WebApi.Models.Bot
         {
             {"nping", new PingBotCommand() },
             {"ngetuser",new UserBotCommand() },
-            //{"nnews",new NewsBotCommand() },
+            {"nnews",new NewsBotCommand() },
             {"nroleinfo",new RoleInfoBotCommand() },
         };
 
