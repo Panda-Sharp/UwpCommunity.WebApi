@@ -150,12 +150,13 @@ namespace UwpCommunity.Data.Migrations
                     Created = table.Column<DateTimeOffset>(nullable: false),
                     LastUpdated = table.Column<DateTimeOffset>(nullable: false),
                     ClientLastUpdated = table.Column<DateTimeOffset>(nullable: false),
-                    IsOwner = table.Column<bool>(nullable: false),
-                    RoleId = table.Column<Guid>(nullable: false)
+                    UserProjectId = table.Column<Guid>(nullable: false),
+                    IsOwner = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserProject", x => new { x.UserId, x.ProjectId });
+                    table.UniqueConstraint("AK_UserProject_UserProjectId", x => x.UserProjectId);
                     table.ForeignKey(
                         name: "FK_UserProject_Projects_ProjectId",
                         column: x => x.ProjectId,
@@ -163,16 +164,39 @@ namespace UwpCommunity.Data.Migrations
                         principalColumn: "ProjectId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserProject_Role_RoleId",
+                        name: "FK_UserProject_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserProjectRole",
+                columns: table => new
+                {
+                    UserProjectId = table.Column<Guid>(nullable: false),
+                    RoleId = table.Column<Guid>(nullable: false),
+                    Index = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Created = table.Column<DateTimeOffset>(nullable: false),
+                    LastUpdated = table.Column<DateTimeOffset>(nullable: false),
+                    ClientLastUpdated = table.Column<DateTimeOffset>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserProjectRole", x => new { x.UserProjectId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_UserProjectRole_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "RoleId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserProject_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
+                        name: "FK_UserProjectRole_UserProject_UserProjectId",
+                        column: x => x.UserProjectId,
+                        principalTable: "UserProject",
+                        principalColumn: "UserProjectId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -212,8 +236,8 @@ namespace UwpCommunity.Data.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProject_RoleId",
-                table: "UserProject",
+                name: "IX_UserProjectRole_RoleId",
+                table: "UserProjectRole",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
@@ -228,16 +252,19 @@ namespace UwpCommunity.Data.Migrations
                 name: "LaunchProject");
 
             migrationBuilder.DropTable(
-                name: "UserProject");
+                name: "UserProjectRole");
 
             migrationBuilder.DropTable(
                 name: "Launch");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "Role");
 
             migrationBuilder.DropTable(
-                name: "Role");
+                name: "UserProject");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -22,6 +22,7 @@ namespace UwpCommunity.Data
             Map(modelBuilder.Entity<Role>());
             Map(modelBuilder.Entity<User>());
             Map(modelBuilder.Entity<UserProject>());
+            Map(modelBuilder.Entity<UserProjectRole>());
         }
 
         private static void Map(EntityTypeBuilder<Category> entity)
@@ -78,6 +79,20 @@ namespace UwpCommunity.Data
             entity.HasOne(up => up.Project)
                 .WithMany(p => p.UserProjects)
                 .HasForeignKey(up => up.ProjectId);
+        }
+
+        private static void Map(EntityTypeBuilder<UserProjectRole> entity)
+        {
+            entity.HasKey(upr => new { upr.UserProjectId, upr.RoleId });
+
+            entity.HasOne(upr => upr.UserProject)
+                .WithMany(up => up.UserProjectRoles)
+                .HasForeignKey(upr => upr.UserProjectId)
+                .HasPrincipalKey(up => up.UserProjectId);
+
+            entity.HasOne(upr => upr.Role)
+                .WithMany(r => r.UserProjectRoles)
+                .HasForeignKey(upr => upr.RoleId);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace UwpCommunity.WebApi.Controllers
         private readonly IRoleService _roleService;
 
         public ProjectsController(ILogger<ProjectsController> logger, IProjectService projectService,
-            IUserService userService, ILaunchService launchService, ICategoryService categoryService, 
+            IUserService userService, ILaunchService launchService, ICategoryService categoryService,
             IRoleService roleService)
         {
             _logger = logger;
@@ -41,17 +41,17 @@ namespace UwpCommunity.WebApi.Controllers
         {
             var userResult = _userService.SingleByDiscordId(discordId);
 
-            var categoryResult = categoryId != null 
-                ? _categoryService.Single(categoryId) 
+            var categoryResult = categoryId != null
+                ? _categoryService.Single(categoryId)
                 : _categoryService.Single(1);
 
             var launchResult = !string.IsNullOrEmpty(year)
                 ? _launchService.SingleByLaunchYear(year)
-                : _launchService.Single(1); 
+                : _launchService.Single(1);
 
             var roleResult = roleId != null
                 ? _roleService.Single(roleId)
-                : _roleService.Single(1); 
+                : _roleService.Single(1);
 
             if (userResult.IsSuccess && categoryResult.IsSuccess
                 && launchResult.IsSuccess && roleResult.IsSuccess)
@@ -65,14 +65,17 @@ namespace UwpCommunity.WebApi.Controllers
                 {
                     new UserProject
                     {
-                        RoleId = roleResult.Value.RoleId,
+                        UserProjectRoles = new List<UserProjectRole>
+                        {
+                            new UserProjectRole{ RoleId = roleResult.Value.RoleId }
+                        },
                         User = userResult.Value
                     }
                 };
 
                 var result = _projectService.Add(project);
 
-                return result.IsSuccess ? Ok(new ProjectDto(result.Value)) 
+                return result.IsSuccess ? Ok(new ProjectDto(result.Value))
                     : (ActionResult)NotFound();
             }
 
@@ -87,7 +90,7 @@ namespace UwpCommunity.WebApi.Controllers
             if (result.IsSuccess)
             {
                 List<ProjectDto> projects = new List<ProjectDto>();
-                foreach(var project in result.Value)
+                foreach (var project in result.Value)
                 {
                     projects.Add(new ProjectDto(project));
                 }

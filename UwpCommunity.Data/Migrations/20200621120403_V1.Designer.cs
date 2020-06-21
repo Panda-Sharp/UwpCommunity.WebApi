@@ -9,7 +9,7 @@ using UwpCommunity.Data;
 namespace UwpCommunity.Data.Migrations
 {
     [DbContext(typeof(UwpCommunityDbContext))]
-    [Migration("20200613135038_V1")]
+    [Migration("20200621120403_V1")]
     partial class V1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -267,16 +267,44 @@ namespace UwpCommunity.Data.Migrations
                     b.Property<DateTimeOffset>("LastUpdated")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("RoleId")
+                    b.Property<Guid>("UserProjectId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("UserId", "ProjectId");
 
                     b.HasIndex("ProjectId");
 
+                    b.ToTable("UserProject");
+                });
+
+            modelBuilder.Entity("UwpCommunity.Data.Models.UserProjectRole", b =>
+                {
+                    b.Property<Guid>("UserProjectId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("ClientLastUpdated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset>("LastUpdated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserProjectId", "RoleId");
+
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserProject");
+                    b.ToTable("UserProjectRole");
                 });
 
             modelBuilder.Entity("UwpCommunity.Data.Models.LaunchProject", b =>
@@ -311,15 +339,25 @@ namespace UwpCommunity.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UwpCommunity.Data.Models.Role", "Role")
+                    b.HasOne("UwpCommunity.Data.Models.User", "User")
                         .WithMany("UserProjects")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UwpCommunity.Data.Models.UserProjectRole", b =>
+                {
+                    b.HasOne("UwpCommunity.Data.Models.Role", "Role")
+                        .WithMany("UserProjectRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UwpCommunity.Data.Models.User", "User")
-                        .WithMany("UserProjects")
-                        .HasForeignKey("UserId")
+                    b.HasOne("UwpCommunity.Data.Models.UserProject", "UserProject")
+                        .WithMany("UserProjectRoles")
+                        .HasForeignKey("UserProjectId")
+                        .HasPrincipalKey("UserProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

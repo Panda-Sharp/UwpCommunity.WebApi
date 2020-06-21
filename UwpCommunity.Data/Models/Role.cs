@@ -9,6 +9,6 @@ namespace UwpCommunity.Data.Models
         public Guid RoleId { get; set; }
         public string Name { get; set; }
 
-        public List<UserProject> UserProjects { get; set; } = new List<UserProject>();
+        public List<UserProjectRole> UserProjectRoles { get; set; } = new List<UserProjectRole>();
     }
 }
