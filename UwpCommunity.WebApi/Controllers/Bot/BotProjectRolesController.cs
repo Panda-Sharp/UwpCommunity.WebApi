@@ -1,4 +1,5 @@
 ﻿using DSharpPlus.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -6,7 +7,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using UwpCommunity.Data.Interfaces;
-using UwpCommunity.WebApi.Attributes;
 using UwpCommunity.WebApi.Interfaces;
 using UwpCommunity.WebApi.Models.Discord;
 
@@ -30,7 +30,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPost("{userId}")]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public async Task<ActionResult<DSharpPlus.Entities.DiscordGuild>> PutAsync(string userId, DiscordAppRole appRole)
         {
             var user = await _discordBotService.GetUserByDiscordId(userId);

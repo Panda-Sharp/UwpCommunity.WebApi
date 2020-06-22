@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using UwpCommunity.WebApi.Attributes;
 using UwpCommunity.WebApi.Interfaces;
 using UwpCommunity.WebApi.Models.Discord;
 
@@ -42,7 +42,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPut("{userId}")]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public async Task<ActionResult<DSharpPlus.Entities.DiscordGuild>> PutAsync(string userId, DiscordRole role)
         {
             var user = await _discordBotService.GetUserByDiscordId(userId);
@@ -94,7 +94,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpDelete("{userId}")]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public async Task<ActionResult<DSharpPlus.Entities.DiscordGuild>> DeleteAsync(string userId, DiscordRole role)
         {
             var user = await _discordBotService.GetUserByDiscordId(userId);

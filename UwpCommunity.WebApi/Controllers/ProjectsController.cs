@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -6,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
-using UwpCommunity.WebApi.Attributes;
 using UwpCommunity.WebApi.Models.Data;
 
 namespace UwpCommunity.WebApi.Controllers
@@ -36,7 +36,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPost("{discordId}")]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public ActionResult<ProjectDto> Add(string discordId, Guid? categoryId, string year, Guid? roleId, Project project)
         {
             var userResult = _userService.SingleByDiscordId(discordId);
@@ -119,7 +119,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpGet("[action]/{discordId}")]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public ActionResult<UserDto> DiscordId(string discordId)
         {
             var result = _userService.GetProjectsByByDiscordId(discordId);
@@ -136,7 +136,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPut]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public ActionResult<ProjectDto> Update(Project project)
         {
             var result = _projectService.UpdateDetachedEntity(project, project.ProjectId);
@@ -146,7 +146,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpDelete("{projectId}")]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public ActionResult Delete(Guid projectId)
         {
             var result = _projectService.Delete(projectId);

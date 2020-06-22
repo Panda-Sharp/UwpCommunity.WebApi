@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
-using UwpCommunity.WebApi.Attributes;
 using UwpCommunity.WebApi.Models.Data;
 
 namespace UwpCommunity.WebApi.Controllers
@@ -25,7 +25,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPost]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public ActionResult<RoleDto> Add(Role role)
         {
             var result = _roleService.Add(role);
@@ -64,7 +64,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPut]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public ActionResult<RoleDto> Update(Role role)
         {
             var result = _roleService.UpdateDetachedEntity(role, role.RoleId);
@@ -74,7 +74,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpDelete("{roleId}")]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public ActionResult Delete(Guid roleId)
         {
             var result = _roleService.Delete(roleId);

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 using UwpCommunity.Data.Interfaces;
 using UwpCommunity.Data.Models;
-using UwpCommunity.WebApi.Attributes;
 using UwpCommunity.WebApi.Models.Data;
 
 namespace UwpCommunity.WebApi.Controllers
@@ -25,7 +25,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPost]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public ActionResult<LaunchDto> Add(Launch launch)
         {
             var result = _launchService.Add(launch);
@@ -64,7 +64,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpPut]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public ActionResult<LaunchDto> Update(Launch launch)
         {
             var result = _launchService.UpdateDetachedEntity(launch, launch.LaunchId);
@@ -74,7 +74,7 @@ namespace UwpCommunity.WebApi.Controllers
         }
 
         [HttpDelete("{launchId}")]
-        [DiscordRequirement]
+        [Authorize(AuthenticationSchemes = "DiscordAuthentication")]
         public ActionResult Delete(Guid launchId)
         {
             var result = _launchService.Delete(launchId);

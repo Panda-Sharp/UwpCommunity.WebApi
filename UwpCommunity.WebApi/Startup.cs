@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using UwpCommunity.WebApi.Auth;
 using UwpCommunity.WebApi.Factories;
 
 /// <summary>
@@ -48,12 +50,23 @@ namespace UwpCommunity.WebApi
 
             ServiceProviderFactory.RegisterServices(services, Configuration);
 
+            services.AddAuthentication("DiscordAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, DiscordAuthenticationHandler>("DiscordAuthentication", null);
+
             services.AddMvc();
 
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
                 options.CustomSchemaIds(type => type.FullName);
+                options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Scheme = "bearer"
+                });
+                options.OperationFilter<AuthResponsesOperationFilter>();
             });
         }
 
@@ -68,6 +81,8 @@ namespace UwpCommunity.WebApi
             //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseCors(_myAllowSpecificOrigins);
 
