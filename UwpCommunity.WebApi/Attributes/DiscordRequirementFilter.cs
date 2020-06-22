@@ -28,5 +28,4 @@ namespace UwpCommunity.WebApi.Attributes
             }
         }
     }
-
 }

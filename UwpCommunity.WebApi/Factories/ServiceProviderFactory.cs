@@ -34,6 +34,7 @@ namespace UwpCommunity.WebApi.Factories
             services.AddSingleton<IDiscordBotService, DiscordBotService>(x => new DiscordBotService(discordSettings));
 
             ServiceProvider = services.BuildServiceProvider();
+            ServiceProvider.GetService<IDiscordBotService>().Init();
         }
     }
 }

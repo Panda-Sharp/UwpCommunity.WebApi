@@ -50,9 +50,10 @@ namespace UwpCommunity.WebApi
 
             services.AddMvc();
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+                options.CustomSchemaIds(type => type.FullName);
             });
         }
 
@@ -77,9 +78,9 @@ namespace UwpCommunity.WebApi
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(c =>
+            app.UseSwaggerUI(options =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
             });
         }
     }
