@@ -19,7 +19,7 @@ namespace UwpCommunity.WebApi.Factories
         public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<UwpCommunityDbContext>(options =>
-                options.UseSqlite(configuration.GetConnectionString("SQLite")))
+                options.UseNpgsql(configuration.GetConnectionString("Postgre")))
                     .AddUnitOfWork<UwpCommunityDbContext>();
 
             services.AddTransient<ICategoryService, CategoryService>();

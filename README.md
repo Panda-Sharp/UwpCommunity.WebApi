@@ -8,6 +8,9 @@
 2. Paste 
 ```
 {
+ "ConnectionStrings": {
+    "Postgre": ""
+  },
   "Discord": {
     "Client": "",
     "Secret": "",
