@@ -9,7 +9,7 @@
 ```
 {
  "ConnectionStrings": {
-    "Postgre": ""
+    "Postgre": "Host=www;Database=xxx;Username=yyy;Password=zzz"
   },
   "Discord": {
     "Client": "",
