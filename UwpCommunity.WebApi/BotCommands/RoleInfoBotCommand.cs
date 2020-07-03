@@ -2,7 +2,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using UwpCommunity.WebApi.Factories;
 using UwpCommunity.WebApi.Interfaces;
 using UwpCommunity.WebApi.Models.Bot;
 
@@ -12,9 +11,9 @@ namespace UwpCommunity.WebApi.BotCommands
     {
         private readonly IDiscordBotService _discordBotService;
 
-        public RoleInfoBotCommand()
+        public RoleInfoBotCommand(IDiscordBotService discordBotService)
         {
-            _discordBotService = ServiceProviderFactory.ServiceProvider.GetService<IDiscordBotService>();
+            _discordBotService = discordBotService;
         }
 
         public async Task<string> Execute(DiscordBotCommand discordBotCommand)

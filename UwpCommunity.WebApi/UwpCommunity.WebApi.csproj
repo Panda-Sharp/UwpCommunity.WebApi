@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!--<PackageReference Include="Dazinator.Extensions.DependencyInjection" Version="1.0.0" />-->
     <PackageReference Include="DSharpPlus" Version="3.2.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
@@ -15,9 +16,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Neleus.DependencyInjection.Extensions" Version="1.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
-    <PackageReference Include="Yugen.Toolkit.Standard.Data" Version="1.0.36" />
+    <PackageReference Include="Yugen.Toolkit.Standard.Data" Version="1.0.37" />
   </ItemGroup>
 
   <ItemGroup>

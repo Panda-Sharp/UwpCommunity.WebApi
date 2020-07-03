@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Text.Json;
 using System.Threading.Tasks;
-using UwpCommunity.WebApi.Factories;
 using UwpCommunity.WebApi.Interfaces;
 using UwpCommunity.WebApi.Models.Bot;
 using UwpCommunity.WebApi.Models.Discord;
@@ -12,9 +12,9 @@ namespace UwpCommunity.WebApi.BotCommands
     {
         private readonly IDiscordBotService _discordBotService;
 
-        public UserBotCommand()
+        public UserBotCommand(IDiscordBotService discordBotService)
         {
-            _discordBotService = ServiceProviderFactory.ServiceProvider.GetService<IDiscordBotService>();
+            _discordBotService = discordBotService;
         }
 
         public async Task<string> Execute(DiscordBotCommand discordBotCommand)

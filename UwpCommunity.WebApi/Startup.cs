@@ -1,12 +1,23 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Neleus.DependencyInjection.Extensions;
+using System;
+using UwpCommunity.Data;
+using UwpCommunity.Data.Interfaces;
+using UwpCommunity.Data.Services;
 using UwpCommunity.WebApi.Auth;
-using UwpCommunity.WebApi.Factories;
+using UwpCommunity.WebApi.BotCommands;
+using UwpCommunity.WebApi.Interfaces;
+using UwpCommunity.WebApi.Models.Bot;
+using UwpCommunity.WebApi.Models.Discord;
+using UwpCommunity.WebApi.Services;
+using Yugen.Toolkit.Standard.Data.Extensions;
 
 /// <summary>
 /// Add a reference to Yugen.Toolkit.Standard.Data
@@ -48,7 +59,36 @@ namespace UwpCommunity.WebApi
 
             services.AddControllers();
 
-            ServiceProviderFactory.RegisterServices(services, Configuration);
+            services.AddDbContext<UwpCommunityDbContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("Postgre")))
+                    .AddUnitOfWork<UwpCommunityDbContext>();
+
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ILaunchService, LaunchService>();
+            services.AddTransient<IProjectService, ProjectService>();
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IUserService, UserService>();
+
+            services.AddSingleton<IDiscordHttpClientService, DiscordHttpClientService>();
+
+            var discordSettings = Configuration.GetSection("Discord").Get<DiscordSettings>();
+            services.AddSingleton<IDiscordBotService>(ctx =>
+            {
+                var discordBotCommandFactory = ctx.GetService<IServiceByNameFactory<IBotCommand>>();
+                return new DiscordBotService(discordSettings, discordBotCommandFactory);
+            });
+
+            services.AddSingleton<PingBotCommand>();
+            services.AddSingleton<UserBotCommand>();
+            services.AddSingleton<NewsBotCommand>();
+            services.AddSingleton<RoleInfoBotCommand>();
+
+            services.AddByName<IBotCommand>()
+                .Add<NewsBotCommand>("nnews")
+                .Add<PingBotCommand>("nping")
+                .Add<RoleInfoBotCommand>("nroleinfo")
+                .Add<UserBotCommand>("ngetuser")
+                .Build();
 
             services.AddAuthentication("DiscordAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, DiscordAuthenticationHandler>("DiscordAuthentication", null);
