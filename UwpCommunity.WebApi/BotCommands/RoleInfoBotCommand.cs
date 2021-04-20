@@ -25,7 +25,7 @@ namespace UwpCommunity.WebApi.BotCommands
         {
             var guild = await _discordBotService.GetGuild();
 
-            var discordRole = guild.Roles.FirstOrDefault(x => x.Name.Equals(role, StringComparison.OrdinalIgnoreCase));
+            var discordRole = guild.Roles.FirstOrDefault(x => x.Value.Name.Equals(role, StringComparison.OrdinalIgnoreCase)).Value;
 
             if(discordRole == null)
             {
@@ -33,7 +33,7 @@ namespace UwpCommunity.WebApi.BotCommands
             }
            
             var numberOfMembers = guild.Members.Count(
-                                    x => x.Roles.Any(
+                                    x => x.Value.Roles.Any(
                                         x => x.Equals(discordRole)));
             var dateRoleCreated = discordRole.CreationTimestamp.ToString();
             var mentionable = discordRole.IsMentionable;

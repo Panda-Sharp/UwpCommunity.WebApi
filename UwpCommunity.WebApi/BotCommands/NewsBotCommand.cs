@@ -22,20 +22,16 @@ namespace UwpCommunity.WebApi.BotCommands
             }
         }
 
-        private async Task<string> GetLink(string link)
-        {
-            return $"user" +
-                   Environment.NewLine +
-                   $"shared: {link}";
-        }
+        private Task<string> GetLink(string link) => Task.FromResult(
+            $"user" +
+            Environment.NewLine +
+            $"shared: {link}");
 
-        private async Task<string> GetLink(string link, string message)
-        {
-            return $"user" +
-                   Environment.NewLine +
-                   $"shared: {link}" +
-                   Environment.NewLine +
-                   $"and says: {message}";
-        }
+        private Task<string> GetLink(string link, string message) => Task.FromResult(
+            $"user" +
+            Environment.NewLine +
+            $"shared: {link}" +
+            Environment.NewLine +
+            $"and says: {message}");
     }
 }

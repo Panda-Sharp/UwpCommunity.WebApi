@@ -82,7 +82,7 @@ namespace UwpCommunity.WebApi.Controllers
                 return NotFound();
             }
 
-            var _role = guild.Roles.FirstOrDefault(x => x.Name.Equals(role.Role, StringComparison.OrdinalIgnoreCase));
+            var _role = guild.Roles.FirstOrDefault(x => x.Value.Name.Equals(role.Role, StringComparison.OrdinalIgnoreCase)).Value;
 
             if (_role != null)
             {
@@ -118,7 +118,7 @@ namespace UwpCommunity.WebApi.Controllers
                 return NotFound();
             }
 
-            var _role = guild.Roles.FirstOrDefault(x => x.Name.Equals(role.Role, StringComparison.OrdinalIgnoreCase));
+            var _role = guild.Roles.FirstOrDefault(x => x.Value.Name.Equals(role.Role, StringComparison.OrdinalIgnoreCase)).Value;
 
             if (_role != null)
             {

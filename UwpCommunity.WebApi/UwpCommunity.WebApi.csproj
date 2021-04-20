@@ -7,19 +7,19 @@
 
   <ItemGroup>
     <!--<PackageReference Include="Dazinator.Extensions.DependencyInjection" Version="1.0.0" />-->
-    <PackageReference Include="DSharpPlus" Version="3.2.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
+    <PackageReference Include="DSharpPlus" Version="4.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.14">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.14">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Neleus.DependencyInjection.Extensions" Version="1.0.3" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
-    <PackageReference Include="Yugen.Toolkit.Standard.Data" Version="1.0.37" />
+    <PackageReference Include="Neleus.DependencyInjection.Extensions" Version="1.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.11" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.2" />
+    <PackageReference Include="Yugen.Toolkit.Standard.Data" Version="1.0.42" />
   </ItemGroup>
 
   <ItemGroup>

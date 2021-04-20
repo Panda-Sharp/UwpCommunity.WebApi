@@ -2,6 +2,7 @@
 using Neleus.DependencyInjection.Extensions;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UwpCommunity.WebApi.Interfaces;
 using UwpCommunity.WebApi.Models.Bot;
@@ -30,29 +31,31 @@ namespace UwpCommunity.WebApi.Services
                 TokenType = TokenType.Bot
             });
 
-            discordClient.MessageCreated += async e =>
-            {
-                if (e.Message.Content.StartsWith("!"))
-                {
-                    var response = "";
-                    var discordBotCommand = new DiscordBotCommand(e.Message.Content);
-
-                    try
-                    {
-                        IBotCommand botCommand = _factory.GetByName(discordBotCommand.Command);
-
-                        if (botCommand != null)
-                        {
-                            response = await botCommand.Execute(discordBotCommand);
-                        }
-                    }
-                    catch { }
-
-                    await e.Message.RespondAsync(response);
-                }
-            };
+            discordClient.MessageCreated += OnDiscordClientMessageCreated;
 
             await discordClient.ConnectAsync();
+        }
+
+        private async Task OnDiscordClientMessageCreated(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs e)
+        {
+            if (e.Message.Content.StartsWith("!"))
+            {
+                var response = "";
+                var discordBotCommand = new DiscordBotCommand(e.Message.Content);
+
+                try
+                {
+                    IBotCommand botCommand = _factory.GetByName(discordBotCommand.Command);
+
+                    if (botCommand != null)
+                    {
+                        response = await botCommand.Execute(discordBotCommand);
+                    }
+                }
+                catch { }
+
+                await e.Message.RespondAsync(response);
+            }
         }
 
         public async Task<DSharpPlus.Entities.DiscordUser> GetUserByDiscordId(string discordId)
@@ -64,7 +67,7 @@ namespace UwpCommunity.WebApi.Services
         public async Task<DSharpPlus.Entities.DiscordUser> GetUserByUsername(string username)
         {
             var guild = await GetGuild();
-            return guild.Members.FirstOrDefault(x => x.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+            return guild.Members.FirstOrDefault(x => x.Value.Username.Equals(username, StringComparison.OrdinalIgnoreCase)).Value;
         }
 
 
@@ -77,7 +80,7 @@ namespace UwpCommunity.WebApi.Services
         public async Task<DSharpPlus.Entities.DiscordMember> GetGuild(ulong discordId)
         {
             var guild = await GetGuild();
-            return guild.Members.FirstOrDefault(x => x.Id.Equals(discordId));
+            return guild.Members.FirstOrDefault(x => x.Value.Id.Equals(discordId)).Value;
         }
 
 
@@ -89,7 +92,7 @@ namespace UwpCommunity.WebApi.Services
         public async Task<DSharpPlus.Entities.DiscordChannel> GetChannel(string channelName)
         {
             var guild = await GetGuild();
-            return guild.Channels.FirstOrDefault(x => x.Name.Equals(channelName, StringComparison.OrdinalIgnoreCase));
+            return guild.Channels.FirstOrDefault(x => x.Value.Name.Equals(channelName, StringComparison.OrdinalIgnoreCase)).Value;
         }
 
         public async Task<DSharpPlus.Entities.DiscordChannel> GetChannel(ulong channelId)

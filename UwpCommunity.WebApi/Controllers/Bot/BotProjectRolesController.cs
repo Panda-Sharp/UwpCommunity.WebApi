@@ -63,7 +63,7 @@ namespace UwpCommunity.WebApi.Controllers
 
             var roleName = $"{appRole.AppName} {appRole.SubRole}";
 
-            var role = guild.Roles.FirstOrDefault(x => x.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase));
+            var role = guild.Roles.FirstOrDefault(x => x.Value.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase)).Value;
 
             if (role == null)
             {
