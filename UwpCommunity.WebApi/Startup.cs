@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,7 +58,13 @@ namespace UwpCommunity.WebApi
                                   });
             });
 
-            services.AddControllers();
+            services.AddControllers(); 
+            services.AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
+                options.DefaultApiVersion = new ApiVersion(2, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+            });
 
             services.AddDbContext<UwpCommunityDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("Postgre")))

@@ -10,8 +10,9 @@ using UwpCommunity.WebApi.Models.Data;
 
 namespace UwpCommunity.WebApi.Controllers
 {
+    [ApiVersion("2")]
+    [Route("v{v:apiVersion}/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     [EnableCors]
     public class UsersController : ControllerBase
     {

@@ -8,6 +8,7 @@
   <ItemGroup>
     <!--<PackageReference Include="Dazinator.Extensions.DependencyInjection" Version="1.0.0" />-->
     <PackageReference Include="DSharpPlus" Version="4.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.14">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
